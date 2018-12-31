@@ -7,17 +7,19 @@
     <LinearLayout
         android:id="@+id/login_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/colorPrimaryDark">
 
         <ImageView
             android:id="@+id/logo"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="138dp"
             android:layout_gravity="center"
+            android:layout_marginTop="40dp"
             android:padding="10dp"
-            app:srcCompat="@mipmap/logo_login_foreground" />
+            app:srcCompat="@mipmap/ic_hand_logo" />
 
         <EditText
             android:id="@+id/login_email"
@@ -32,6 +34,8 @@
             android:drawablePadding="8dp"
             android:gravity="center_vertical"
             android:padding="10dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
              />
 
         <View
@@ -52,6 +56,8 @@
             android:drawablePadding="8dp"
             android:gravity="center_vertical"
             android:padding="10dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
              />
 
 
@@ -93,11 +99,10 @@
             android:textColor="#009688"
             android:textSize="17sp"
             android:textStyle="bold" />
-    </LinearLayout>
 
-    <TextView
+        <TextView
         android:id="@+id/create_account"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/login_layout"
         android:layout_centerHorizontal="true"
@@ -107,6 +112,9 @@
         android:text="@string/sign_up_now"
         android:textColor="@color/white"
         android:textSize="20sp" />
+
+    </LinearLayout>
+
 
 
 
