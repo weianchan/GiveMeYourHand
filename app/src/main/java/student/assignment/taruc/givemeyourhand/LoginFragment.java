@@ -103,6 +103,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                                         // Sign in success, update UI with the signed-in user's information
                                         Log.d(TAG, "signInWithEmail:success");
                                         startActivity(new Intent(getActivity(), MainActivity.class));
+                                        getActivity().finish();
 
                                     } else {
                                         // If sign in fails, display a message to the user.

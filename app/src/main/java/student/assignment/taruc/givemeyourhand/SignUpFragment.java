@@ -90,6 +90,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                                         myRef.setValue(info);
 
                                         startActivity(new Intent(getActivity(), MainActivity.class));
+                                        getActivity().finish();
                                     } else {
                                         // If sign in fails, display a message to the user.
                                         Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -106,6 +107,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                 Toast.makeText(getActivity(), "Exit",Toast.LENGTH_SHORT).show();
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.login_fragmentContainer, new LoginFragment(),global.LOGIN_FRAGMENT).commit();
+
                 break;
             }
 

@@ -23,4 +23,13 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="log_out">Log out</string>
     <string name="exit">Exit</string>
+    <string name="create_your_post">Create Your Post</string>
+    <string name="enter_title">Enter Title</string>
+    <string name="enter_content">Enter Content</string>
+    <string name="enter_bank_account_optional">Enter Bank Account (Optional)</string>
+    <string name="enter_contact_no_optional">Enter Contact No. (Optional)</string>
+    <string name="select_image">Select Image</string>
+    <string name="submit">Submit</string>
+    <string name="no_image_selected">No image selected</string>
+    <string name="click_to_select_image">Click to select image</string>
 </resources>

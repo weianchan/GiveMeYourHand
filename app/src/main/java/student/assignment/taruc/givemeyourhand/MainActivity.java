@@ -2,8 +2,10 @@ package student.assignment.taruc.givemeyourhand;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,9 +15,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -24,6 +34,15 @@ public class MainActivity extends AppCompatActivity
 
 
     private String mUserName;
+    private String mUserEmail;
+
+    private TextView navName;
+    private TextView navEmail;
+
+    private static FragmentManager fragmentManager;
+    private static FirebaseDatabase database;
+    FirebaseUser currentUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,14 +53,6 @@ public class MainActivity extends AppCompatActivity
 
         mAuth = FirebaseAuth.getInstance();
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -52,7 +63,13 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        View header = navigationView.getHeaderView(0);
 
+        navName = header.findViewById(R.id.current_username);
+        navEmail = header.findViewById(R.id.current_user_email);
+
+        fragmentManager  = getSupportFragmentManager();
+        database = FirebaseDatabase.getInstance();
 
 
 
@@ -61,14 +78,29 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
+        currentUser = mAuth.getCurrentUser();
+        updateUI();
     }
 
-    private void updateUI(FirebaseUser currentUser) {
+    private void updateUI() {
         if(currentUser!= null){
-            mUserName = currentUser.getDisplayName();
+            database.getReference().child("User").child(currentUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    mUserName = String.valueOf(dataSnapshot.child("Username").getValue());
+                    mUserEmail = currentUser.getEmail();
+
+                    navName.setText(mUserName);
+                    navEmail.setText(mUserEmail);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+
 
         }
         else{
@@ -117,9 +149,8 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
+        }  else if (id == R.id.new_post) {
+            fragmentManager.beginTransaction().replace(R.id.main_fragment_container, new UploadPostFragment()).commit();
 
         } else if (id == R.id.nav_manage) {
 

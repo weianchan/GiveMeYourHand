@@ -9,9 +9,9 @@
             android:icon="@drawable/ic_menu_camera"
             android:title="Import" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:id="@+id/new_post"
+            android:icon="@drawable/ic_public_24dp"
+            android:title="Post new Activity" />
         <item
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_menu_slideshow"
