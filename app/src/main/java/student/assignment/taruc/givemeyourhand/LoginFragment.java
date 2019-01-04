@@ -93,7 +93,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
         switch (view.getId()){
             case R.id.login_btn:
-                Toast.makeText(getActivity(), "Sign in", Toast.LENGTH_SHORT).show();
                 if(checkValidation()){
                     mAuth.signInWithEmailAndPassword(email.getText().toString(), password.getText().toString())
                             .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
@@ -102,6 +101,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                                     if (task.isSuccessful()) {
                                         // Sign in success, update UI with the signed-in user's information
                                         Log.d(TAG, "signInWithEmail:success");
+                                        Toast.makeText(getActivity(), "Login Success", Toast.LENGTH_SHORT).show();
                                         startActivity(new Intent(getActivity(), MainActivity.class));
                                         getActivity().finish();
 
@@ -144,7 +144,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         else if(!m.find())
             Toast.makeText(getActivity(), "Invalid Email address", Toast.LENGTH_SHORT).show();
         else {
-            Toast.makeText(getActivity(), "Start Login", Toast.LENGTH_SHORT).show();
+
             return true;
         }
         return false;

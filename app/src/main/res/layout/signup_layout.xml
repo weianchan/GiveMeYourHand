@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorAccent"
@@ -13,13 +14,21 @@
         android:padding="10dp"
         android:text="@string/sign_up"
         android:textColor="@color/white_greyish"
-        android:textSize="25sp"
+        android:textSize="20sp"
         android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/profile"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal"
+        android:contentDescription="@string/click_to_select_image"
+        app:srcCompat="@drawable/ic_image_24dp" />
 
     <EditText
         android:id="@+id/full_name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="33dp"
         android:layout_marginTop="10dp"
         android:background="@android:color/transparent"
         android:drawableStart="@drawable/ic_user_24dp"
@@ -31,7 +40,7 @@
         android:singleLine="true"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
-        android:textSize="16sp" />
+        android:textSize="12sp" />
 
     <View
         android:layout_width="match_parent"
@@ -41,7 +50,7 @@
     <EditText
         android:id="@+id/user_email"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="33dp"
         android:layout_marginTop="5dp"
         android:background="@android:color/transparent"
         android:drawableStart="@drawable/ic_email_black_24dp"
@@ -53,7 +62,7 @@
         android:singleLine="true"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
-        android:textSize="16sp" />
+        android:textSize="12sp" />
 
     <View
         android:layout_width="match_parent"
@@ -63,7 +72,7 @@
     <EditText
         android:id="@+id/mobile_number"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="33dp"
         android:layout_marginTop="5dp"
         android:background="@android:color/transparent"
         android:drawableStart="@drawable/ic_phone_24dp"
@@ -75,7 +84,7 @@
         android:singleLine="true"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
-        android:textSize="16sp" />
+        android:textSize="12sp" />
 
     <View
         android:layout_width="match_parent"
@@ -86,7 +95,7 @@
     <EditText
         android:id="@+id/password"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:layout_marginTop="5dp"
         android:background="@android:color/transparent"
         android:drawableStart="@drawable/ic_lock_outline_black_24dp"
@@ -98,17 +107,17 @@
         android:singleLine="true"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
-        android:textSize="16sp" />
+        android:textSize="12sp" />
 
     <View
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="@color/white_greyish" />
 
     <EditText
         android:id="@+id/confirm_password"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:layout_marginTop="5dp"
         android:background="@android:color/transparent"
         android:drawableStart="@drawable/ic_confirm_password_24dp"
@@ -120,23 +129,23 @@
         android:singleLine="true"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
-        android:textSize="16sp" />
+        android:textSize="12sp" />
 
     <CheckBox
         android:id="@+id/terms_conditions"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="18dp"
         android:layout_marginTop="7dp"
+        android:buttonTint="@color/white"
         android:text="@string/terms_condition"
         android:textColor="@color/white"
-        android:buttonTint="@color/white"
         android:textSize="14sp" />
 
     <Button
         android:id="@+id/sign_up_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:padding="3dp"
         android:text="@string/sign_up"
         android:textColor="@color/background_color"
@@ -148,7 +157,7 @@
         android:layout_width="wrap_content"
         android:layout_height="57dp"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/ic_close_black_24dp" />
 
 

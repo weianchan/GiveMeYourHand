@@ -218,20 +218,20 @@ public class UploadPostFragment extends Fragment implements View.OnClickListener
                         }
                     }
                     HashMap hashMap = new HashMap();
+
                     hashMap.put("Title", title);
                     hashMap.put("Content", content);
                     hashMap.put("ContactNo", contact);
                     hashMap.put("AccountNo", account);
                     hashMap.put("Owner", firebaseAuth.getCurrentUser().getUid());
                     hashMap.put("UploadDate", currentDate);
-                    hashMap.put("Owner", firebaseAuth.getCurrentUser().getUid());
-                    hashMap.put("UploadDate", currentDate);
-                    
+
+
 
                     dbRef.setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            Toast.makeText(getActivity(), "Your post created success.", Toast.LENGTH_SHORT);
+                            Toast.makeText(getActivity(), "Your post created success.", Toast.LENGTH_SHORT).show();
 
                         }
                     });
