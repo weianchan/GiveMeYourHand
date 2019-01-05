@@ -146,7 +146,8 @@ public class UploadPostFragment extends Fragment implements View.OnClickListener
                 try {
                     if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},1);
-                    } else {
+                    }
+                    if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                         Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                         intent.setType("image/*");
                         startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURES_1);
@@ -160,7 +161,8 @@ public class UploadPostFragment extends Fragment implements View.OnClickListener
                 try {
                     if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},1);
-                    } else {
+                    }
+                    if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                         Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                         intent.setType("image/*");
                         //intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
@@ -174,8 +176,9 @@ public class UploadPostFragment extends Fragment implements View.OnClickListener
             case R.id.image3:
                 try {
                     if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},1);
-                    } else {
+                        ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+                    }
+                    if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                         Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                         intent.setType("image/*");
                         //intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
@@ -201,16 +204,15 @@ public class UploadPostFragment extends Fragment implements View.OnClickListener
                     for(int i=0 ; i < 3 ; i++){
                         if(imageUriList[i]!= null){
                             StorageReference imageRef = firebaseStorage.getReference().child("images/"+dbRef.getKey()+"_"+i+".jpg");
-
                             imageRef.putFile(imageUriList[i]).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                 @Override
                                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                     Task<Uri> task = taskSnapshot.getMetadata().getReference().getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Uri> task) {
-                                            dbRef.child("image"+count+1).setValue(task.getResult().toString());
+                                            dbRef.child("image"+(++count)).setValue(task.getResult().toString());
                                             Log.d("123", task.getResult().toString());
-                                            count++;
+
                                         }
                                     });
                                 }

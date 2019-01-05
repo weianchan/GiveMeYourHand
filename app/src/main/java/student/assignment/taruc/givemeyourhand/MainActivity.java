@@ -32,7 +32,7 @@ import com.squareup.picasso.Picasso;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private FirebaseAuth mAuth;
 
@@ -73,7 +73,9 @@ public class MainActivity extends AppCompatActivity
 
         fragmentManager  = getSupportFragmentManager();
 
-
+        navName.setOnClickListener(this);
+        navEmail.setOnClickListener(this);
+        navProfile.setOnClickListener(this);
 
     }
 
@@ -95,7 +97,7 @@ public class MainActivity extends AppCompatActivity
                         .placeholder(R.drawable.ic_image_24dp)
                         .error(R.drawable.ic_image_24dp)
                         .into(navProfile);
-                Log.d("photoUrl",currentUser.getPhotoUrl().toString());
+
             }
 
 
@@ -168,5 +170,20 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.current_username:
+            case R.id.current_user_profile:
+            case R.id.current_user_email:
+                fragmentManager.beginTransaction().replace(R.id.main_fragment_container, new ProfileFragment()).commit();
+                onBackPressed();
+                break;
+
+
+
+        }
     }
 }

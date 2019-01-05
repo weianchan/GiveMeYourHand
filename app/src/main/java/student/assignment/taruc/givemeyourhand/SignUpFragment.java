@@ -111,7 +111,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                                                     if(task.isComplete() && task.isSuccessful()){
                                                         task.getResult().getMetadata().getReference().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                                             @Override
-                                                            public void onSuccess(Uri uri) {
+                                                            public void onSuccess(final Uri uri) {
                                                                 UserProfileChangeRequest profileUpdate = new UserProfileChangeRequest.Builder()
                                                                         .setPhotoUri(uri)
                                                                         .setDisplayName(username.getText().toString())
@@ -126,6 +126,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                                                                         HashMap info = new HashMap();
                                                                         info.put("Username", username.getText().toString());
                                                                         info.put("Phone", phone.getText().toString());
+                                                                        info.put("ProfilePic",uri.toString());
                                                                         myRef.setValue(info);
 
                                                                         startActivity(new Intent(getActivity(), MainActivity.class));
@@ -188,7 +189,9 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                 try {
                     if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},1);
-                    } else {
+                    }
+                    if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+
                         Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                         intent.setType("image/*");
                         startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);

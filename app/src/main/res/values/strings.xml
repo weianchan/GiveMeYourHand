@@ -32,4 +32,10 @@
     <string name="submit">Submit</string>
     <string name="no_image_selected">No image selected</string>
     <string name="click_to_select_image">Click to select image</string>
+    <string name="user_profile">User Profile</string>
+    <string name="email_address_lbl">Email Address:</string>
+    <string name="phone_number_lbl">Phone Number:</string>
+    <string name="update_profile">Update Profile</string>
+    <string name="update_information">Update Information</string>
+    <string name="change_password">Change Password</string>
 </resources>
