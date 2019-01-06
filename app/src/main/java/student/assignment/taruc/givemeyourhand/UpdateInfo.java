@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -31,6 +32,7 @@ public class UpdateInfo extends Fragment implements View.OnClickListener {
 
     private EditText username, phone;
     private Button confirmBtn;
+    private ProgressBar loadingBar;
 
 
     private FirebaseUser currentUser;
@@ -53,6 +55,7 @@ public class UpdateInfo extends Fragment implements View.OnClickListener {
         username = view.findViewById(R.id.change_user_name);
         phone = view.findViewById(R.id.change_user_phone);
         confirmBtn = view.findViewById(R.id.confirm_update_info);
+        loadingBar = view.findViewById(R.id.update_loading_bar);
 
         firebaseAuth = FirebaseAuth.getInstance();
         currentUser = firebaseAuth.getCurrentUser();
@@ -68,11 +71,13 @@ public class UpdateInfo extends Fragment implements View.OnClickListener {
     @Override
     public void onStart() {
         super.onStart();
+        loadingBar.setVisibility(View.VISIBLE);
         username.setText(currentUser.getDisplayName());
         firebaseDatabase.getReference().child("User").child(currentUser.getUid()).child("Phone").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 phone.setText(dataSnapshot.getValue(String.class));
+                loadingBar.setVisibility(View.GONE);
             }
 
             @Override
@@ -86,6 +91,7 @@ public class UpdateInfo extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         if(view.getId() == R.id.confirm_update_info){
             if(checkValidation()){
+                loadingBar.setVisibility(View.VISIBLE);
                 UserProfileChangeRequest profileUpdate = new UserProfileChangeRequest.Builder()
                         .setDisplayName(username.getText().toString())
                         .build();
@@ -94,6 +100,7 @@ public class UpdateInfo extends Fragment implements View.OnClickListener {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(getActivity(), "Update Success.", Toast.LENGTH_SHORT);
+                        loadingBar.setVisibility(View.INVISIBLE);
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_container, new ProfileFragment()).commit();
                     }
                 });

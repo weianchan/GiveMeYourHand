@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".UpdateInfo">
-    
+
 
     <TextView
         android:id="@+id/change_user_name_lbl"
@@ -59,4 +59,14 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
         android:text="Confirm" />
+
+    <ProgressBar
+        android:id="@+id/update_loading_bar"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="197dp"
+        android:layout_height="165dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="63dp"
+        android:visibility="gone" />
 </RelativeLayout>

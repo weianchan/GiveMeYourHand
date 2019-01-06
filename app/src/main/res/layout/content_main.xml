@@ -10,5 +10,11 @@
     android:id="@+id/main_fragment_container">
 
 
-
+    <ProgressBar
+        android:id="@+id/main_loadingbar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="122dp"
+        android:layout_height="111dp"
+        android:layout_gravity="center"
+        android:visibility="gone" />
 </FrameLayout>

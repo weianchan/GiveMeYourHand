@@ -46,6 +46,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
     private EditText username, email, phone, password, confirmPassword;
     private CheckBox tnC;
     private Button signUpBtn, closeBtn;
+    private ProgressBar loadingBar;
     private FirebaseAuth mAuth;
     private FirebaseStorage firebaseStorage;
     private static final String TAG = "SignInActivity: ";
@@ -75,6 +76,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
         signUpBtn = view.findViewById(R.id.sign_up_btn);
         closeBtn = view.findViewById(R.id.close_button);
         profile = view.findViewById(R.id.profile);
+        loadingBar = view.findViewById(R.id.signup_loadingbar);
 
         signUpBtn.setOnClickListener(this);
         closeBtn.setOnClickListener(this);
@@ -95,6 +97,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
             case R.id.sign_up_btn:
 
                 if(checkValidation()){
+                    loadingBar.setVisibility(View.VISIBLE);
                     mAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
                             .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                                 @Override
@@ -129,6 +132,8 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                                                                         info.put("ProfilePic",uri.toString());
                                                                         myRef.setValue(info);
 
+                                                                        loadingBar.setVisibility(View.GONE);
+
                                                                         startActivity(new Intent(getActivity(), MainActivity.class));
                                                                         getActivity().finish();
                                                                     }
@@ -156,6 +161,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                                                     info.put("Username", username.getText().toString());
                                                     info.put("Phone", phone.getText().toString());
                                                     myRef.setValue(info);
+                                                    loadingBar.setVisibility(View.GONE);
 
                                                     startActivity(new Intent(getActivity(), MainActivity.class));
                                                     getActivity().finish();
@@ -168,6 +174,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
 
                                     } else {
                                         // If sign in fails, display a message to the user.
+                                        loadingBar.setVisibility(View.GONE);
                                         Log.w(TAG, "createUserWithEmail:failure", task.getException());
                                         Toast.makeText(getActivity(), "Authentication failed.",
                                                 Toast.LENGTH_SHORT).show();

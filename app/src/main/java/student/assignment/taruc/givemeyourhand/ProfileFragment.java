@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,7 +58,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDatabase;
     private FirebaseStorage firebaseStorage;
+    private ProgressBar loadingBar;
     View view;
+
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -88,6 +91,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         changeInfo.setOnClickListener(this);
         changeProfile.setOnClickListener(this);
 
+        loadingBar = view.findViewById(R.id.profile_loading_bar);
+
+
 
         return view;
     }
@@ -95,17 +101,22 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onStart() {
         super.onStart();
+        loadingBar.setVisibility(View.VISIBLE);
+        loadingBar.bringToFront();
         username.setText(currentUser.getDisplayName());
         userEmail.setText(currentUser.getEmail());
-        Picasso.get().load(currentUser.getPhotoUrl()).fit().centerCrop()
-                .placeholder(R.drawable.ic_image_24dp)
-                .error(R.drawable.ic_image_24dp)
-                .into(userProfile);
+        if(currentUser.getPhotoUrl()!=null){
+            Picasso.get().load(currentUser.getPhotoUrl()).fit().centerCrop()
+                    .placeholder(R.drawable.ic_image_24dp)
+                    .error(R.drawable.ic_image_24dp)
+                    .into(userProfile);
+        }
 
         firebaseDatabase.getReference().child("User").child(currentUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 userPhone.setText(dataSnapshot.child("Phone").getValue(String.class));
+                loadingBar.setVisibility(View.GONE);
             }
 
             @Override
@@ -135,6 +146,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        loadingBar.setVisibility(View.VISIBLE);
+                        loadingBar.bringToFront();
                         AuthCredential credential = EmailAuthProvider.getCredential(currentUser.getEmail(), input.getText().toString());
 
                         currentUser.reauthenticate(credential)
@@ -142,6 +155,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if(task.isSuccessful()){
+                                            loadingBar.setVisibility(View.GONE);
                                             final AlertDialog.Builder newBuilder = new AlertDialog.Builder(getActivity());
                                             LinearLayout layout = new LinearLayout(getActivity());
                                             layout.setOrientation(LinearLayout.VERTICAL);
@@ -161,11 +175,14 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                                             newBuilder.setPositiveButton("Change", new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialogInterface, int i) {
+                                                    loadingBar.setVisibility(View.VISIBLE);
+                                                    loadingBar.bringToFront();
                                                     if(password.getText().toString().equals(confirmPassword.getText().toString())){
                                                         currentUser.updatePassword(password.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                             @Override
                                                             public void onComplete(@NonNull Task<Void> task) {
                                                                 if (task.isSuccessful()) {
+                                                                    loadingBar.setVisibility(View.GONE);
                                                                     Toast.makeText(getActivity(),"Password updated", Toast.LENGTH_SHORT).show();
                                                                 } else {
                                                                     Toast.makeText(getActivity(),"Error password not updated", Toast.LENGTH_SHORT).show();
@@ -217,7 +234,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                         ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},1);
                     }
                     if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-
+                        loadingBar.setVisibility(View.VISIBLE);
+                        loadingBar.bringToFront();
                         Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                         intent.setType("image/*");
                         startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
@@ -261,6 +279,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                                         .placeholder(R.drawable.ic_image_24dp)
                                         .error(R.drawable.ic_image_24dp)
                                         .into(navProfile);
+
+                                loadingBar.setVisibility(View.GONE);
 
 
                             }

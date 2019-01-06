@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity
     private TextView navName;
     private TextView navEmail;
     private ImageView navProfile;
+    private ProgressBar loadingBar;
 
     private static FragmentManager fragmentManager;
     FirebaseUser currentUser;
@@ -73,6 +75,8 @@ public class MainActivity extends AppCompatActivity
 
         fragmentManager  = getSupportFragmentManager();
 
+        loadingBar = findViewById(R.id.main_loadingbar);
+
         navName.setOnClickListener(this);
         navEmail.setOnClickListener(this);
         navProfile.setOnClickListener(this);
@@ -82,8 +86,10 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onStart() {
         super.onStart();
+        loadingBar.setVisibility(View.VISIBLE);
         currentUser = mAuth.getCurrentUser();
         updateUI();
+        loadingBar.setVisibility(View.GONE);
     }
 
     private void updateUI() {
