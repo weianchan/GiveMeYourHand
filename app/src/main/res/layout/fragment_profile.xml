@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ProfileFragment">
+
+
+    <ImageView
+        android:id="@+id/profile_image"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:contentDescription="@string/user_profile"
+        android:src="@drawable/ic_image_24dp" />
+
+    <TextView
+        android:id="@+id/profile_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profile_image"
+        android:layout_centerHorizontal="true"
+        android:text=""
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/profile_user_email_lbl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profile_username"
+        android:layout_centerHorizontal="false"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="50dp"
+        android:text="@string/email_address_lbl"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/profile_user_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/profile_user_email_lbl"
+        android:layout_centerHorizontal="false"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/profile_user_email_lbl"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/profile_user_phone_lbl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profile_user_email_lbl"
+        android:layout_alignEnd="@+id/profile_user_email_lbl"
+        android:layout_centerVertical="false"
+        android:layout_marginTop="10dp"
+        android:text="@string/phone_number_lbl"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/profile_user_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/profile_user_phone_lbl"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/profile_user_phone_lbl" />
+
+    <Button
+        android:id="@+id/change_profile_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profile_user_phone_lbl"
+        android:layout_alignStart="@+id/profile_user_phone_lbl"
+        android:layout_alignParentBottom="false"
+        android:layout_marginTop="50dp"
+        android:text="@string/update_profile" />
+
+    <Button
+        android:id="@+id/change_info_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/change_profile_btn"
+        android:layout_alignParentEnd="false"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/change_profile_btn"
+        android:text="@string/update_information" />
+
+    <Button
+        android:id="@+id/change_password_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/change_info_btn"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentBottom="false"
+        android:layout_centerHorizontal="true"
+        android:text="@string/change_password" />
+
+    <ProgressBar
+        android:id="@+id/profile_loading_bar"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="197dp"
+        android:layout_height="165dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="75dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="150dp"
+        android:visibility="gone" />
+</RelativeLayout>

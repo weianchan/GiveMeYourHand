@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,7 +33,7 @@ import com.squareup.picasso.Picasso;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private FirebaseAuth mAuth;
 
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity
     private TextView navName;
     private TextView navEmail;
     private ImageView navProfile;
+    private ProgressBar loadingBar;
 
     private static FragmentManager fragmentManager;
     FirebaseUser currentUser;
@@ -73,15 +75,21 @@ public class MainActivity extends AppCompatActivity
 
         fragmentManager  = getSupportFragmentManager();
 
+        loadingBar = findViewById(R.id.main_loadingbar);
 
+        navName.setOnClickListener(this);
+        navEmail.setOnClickListener(this);
+        navProfile.setOnClickListener(this);
 
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        loadingBar.setVisibility(View.VISIBLE);
         currentUser = mAuth.getCurrentUser();
         updateUI();
+        loadingBar.setVisibility(View.GONE);
     }
 
     private void updateUI() {
@@ -95,7 +103,7 @@ public class MainActivity extends AppCompatActivity
                         .placeholder(R.drawable.ic_image_24dp)
                         .error(R.drawable.ic_image_24dp)
                         .into(navProfile);
-                Log.d("photoUrl",currentUser.getPhotoUrl().toString());
+
             }
 
 
@@ -169,5 +177,20 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.current_username:
+            case R.id.current_user_profile:
+            case R.id.current_user_email:
+                fragmentManager.beginTransaction().replace(R.id.main_fragment_container, new ProfileFragment()).commit();
+                onBackPressed();
+                break;
+
+
+
+        }
     }
 }

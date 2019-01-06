@@ -46,6 +46,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
     private EditText username, email, phone, password, confirmPassword;
     private CheckBox tnC;
     private Button signUpBtn, closeBtn;
+    private ProgressBar loadingBar;
     private FirebaseAuth mAuth;
     private FirebaseStorage firebaseStorage;
     private static final String TAG = "SignInActivity: ";
@@ -75,6 +76,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
         signUpBtn = view.findViewById(R.id.sign_up_btn);
         closeBtn = view.findViewById(R.id.close_button);
         profile = view.findViewById(R.id.profile);
+        loadingBar = view.findViewById(R.id.signup_loadingbar);
 
         signUpBtn.setOnClickListener(this);
         closeBtn.setOnClickListener(this);
@@ -95,6 +97,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
             case R.id.sign_up_btn:
 
                 if(checkValidation()){
+                    loadingBar.setVisibility(View.VISIBLE);
                     mAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
                             .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                                 @Override
@@ -111,7 +114,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                                                     if(task.isComplete() && task.isSuccessful()){
                                                         task.getResult().getMetadata().getReference().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                                             @Override
-                                                            public void onSuccess(Uri uri) {
+                                                            public void onSuccess(final Uri uri) {
                                                                 UserProfileChangeRequest profileUpdate = new UserProfileChangeRequest.Builder()
                                                                         .setPhotoUri(uri)
                                                                         .setDisplayName(username.getText().toString())
@@ -126,7 +129,10 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                                                                         HashMap info = new HashMap();
                                                                         info.put("Username", username.getText().toString());
                                                                         info.put("Phone", phone.getText().toString());
+                                                                        info.put("ProfilePic",uri.toString());
                                                                         myRef.setValue(info);
+
+                                                                        loadingBar.setVisibility(View.GONE);
 
                                                                         startActivity(new Intent(getActivity(), MainActivity.class));
                                                                         getActivity().finish();
@@ -155,6 +161,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                                                     info.put("Username", username.getText().toString());
                                                     info.put("Phone", phone.getText().toString());
                                                     myRef.setValue(info);
+                                                    loadingBar.setVisibility(View.GONE);
 
                                                     startActivity(new Intent(getActivity(), MainActivity.class));
                                                     getActivity().finish();
@@ -167,6 +174,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
 
                                     } else {
                                         // If sign in fails, display a message to the user.
+                                        loadingBar.setVisibility(View.GONE);
                                         Log.w(TAG, "createUserWithEmail:failure", task.getException());
                                         Toast.makeText(getActivity(), "Authentication failed.",
                                                 Toast.LENGTH_SHORT).show();
@@ -188,7 +196,9 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                 try {
                     if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},1);
-                    } else {
+                    }
+                    if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+
                         Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                         intent.setType("image/*");
                         startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);

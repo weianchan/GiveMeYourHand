@@ -1,6 +1,8 @@
 package student.assignment.taruc.givemeyourhand;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,6 +18,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +42,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     private Button loginButton;
     private TextView forgotPassword, signUp;
     private CheckBox showPassword;
+    private ProgressBar loadingBar;
 
     private static final  String TAG = "SignInActivity: ";
 
@@ -61,6 +65,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         forgotPassword = view.findViewById(R.id.forgot_password);
         signUp = view.findViewById(R.id.create_account);
         showPassword = view.findViewById(R.id.show_hide_password);
+        loadingBar = view.findViewById(R.id.login_loadingbar);
 
         loginButton.setOnClickListener(this);
         forgotPassword.setOnClickListener(this);
@@ -93,7 +98,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
         switch (view.getId()){
             case R.id.login_btn:
+
                 if(checkValidation()){
+                    loadingBar.setVisibility(View.VISIBLE);
                     mAuth.signInWithEmailAndPassword(email.getText().toString(), password.getText().toString())
                             .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                                 @Override
@@ -110,6 +117,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                                         Log.w(TAG, "signInWithEmail:failure", task.getException());
                                         Toast.makeText(getActivity(), "Login Failed",
                                                 Toast.LENGTH_SHORT).show();
+                                        loadingBar.setVisibility(View.GONE);
+
                                     }
 
 
@@ -119,10 +128,50 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
                 break;
             case R.id.forgot_password:
-                Toast.makeText(getActivity(), "Forgot Password", Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Please enter your email address:");
+
+                final EditText input = new EditText(getActivity());
+                input.setInputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+
+                builder.setView(input);
+
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        loadingBar.setVisibility(View.VISIBLE);
+                        String emailAddress = input.getText().toString();
+
+                        mAuth.sendPasswordResetEmail(emailAddress)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            loadingBar.setVisibility(View.GONE);
+                                            Toast.makeText(getActivity(),"Reset Password Email sent to yout email address", Toast.LENGTH_SHORT).show();
+                                        }
+                                        else{
+                                            loadingBar.setVisibility(View.GONE);
+                                            Toast.makeText(getActivity(),"Invalid Email Address", Toast.LENGTH_SHORT).show();
+
+                                        }
+                                    }
+                                });
+                    }
+                });
+
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+
+                builder.show();
+
                 break;
             case R.id.create_account:
-                Toast.makeText(getActivity(), "Create Account", Toast.LENGTH_SHORT).show();
+
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.login_fragmentContainer, new SignUpFragment(),global.SIGNUP_FRAGMENT).commit();
                 break;
