@@ -149,8 +149,9 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_home) {
             // Handle the camera action
+            fragmentManager.beginTransaction().replace(R.id.main_fragment_container, new ListFragment()).commit();
         }  else if (id == R.id.new_post) {
             fragmentManager.beginTransaction().replace(R.id.main_fragment_container, new UploadPostFragment()).commit();
 
