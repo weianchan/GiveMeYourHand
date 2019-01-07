@@ -14,10 +14,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -49,6 +51,7 @@ public class UploadPostFragment extends Fragment implements View.OnClickListener
     private EditText mTitle, mContent, mAccount, mContact;
     private ImageView image1, image2, image3;
     private Button submitButton;
+    private ProgressBar loadingBar;
     private static int SELECT_PICTURES_1 = 1;
     private static int SELECT_PICTURES_2 = 2;
     private static int SELECT_PICTURES_3 = 3;
@@ -78,6 +81,7 @@ public class UploadPostFragment extends Fragment implements View.OnClickListener
         mAccount = view.findViewById(R.id.post_bank_account);
         mContact = view.findViewById(R.id.post_contact_no);
         submitButton = view.findViewById(R.id.submit_button);
+        loadingBar = view.findViewById(R.id.create_post_loading_bar);
 
         image1 = view.findViewById(R.id.image1);
         image2 = view.findViewById(R.id.image2);
@@ -191,18 +195,25 @@ public class UploadPostFragment extends Fragment implements View.OnClickListener
                 break;
             case R.id.submit_button:
 
+
                 title = mTitle.getText().toString();
                 content = mContent.getText().toString();
                 contact = mContact.getText().toString();
                 account = mAccount.getText().toString();
                 String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
-                final DatabaseReference dbRef = firebaseDatabase.getReference().child("Post").push();
-                Task task;
+
 
                 if(checkValidation()){
+                    loadingBar.setVisibility(View.VISIBLE);
+                    getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                    final DatabaseReference dbRef = firebaseDatabase.getReference().child("Post").push();
 
                     for(int i=0 ; i < 3 ; i++){
                         if(imageUriList[i]!= null){
+                            loadingBar.setVisibility(View.VISIBLE);
+                            getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                             StorageReference imageRef = firebaseStorage.getReference().child("images/"+dbRef.getKey()+"_"+i+".jpg");
                             imageRef.putFile(imageUriList[i]).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                 @Override
@@ -212,6 +223,8 @@ public class UploadPostFragment extends Fragment implements View.OnClickListener
                                         public void onComplete(@NonNull Task<Uri> task) {
                                             dbRef.child("image"+(++count)).setValue(task.getResult().toString());
                                             Log.d("123", task.getResult().toString());
+                                            loadingBar.setVisibility(View.GONE);
+                                            getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
                                         }
                                     });
@@ -233,6 +246,8 @@ public class UploadPostFragment extends Fragment implements View.OnClickListener
                     dbRef.setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
+                            loadingBar.setVisibility(View.GONE);
+                            getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                             Toast.makeText(getActivity(), "Your post created success.", Toast.LENGTH_SHORT).show();
 
                         }

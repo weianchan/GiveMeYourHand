@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -101,6 +102,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
                 if(checkValidation()){
                     loadingBar.setVisibility(View.VISIBLE);
+                    getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                     mAuth.signInWithEmailAndPassword(email.getText().toString(), password.getText().toString())
                             .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                                 @Override
@@ -118,6 +121,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                                         Toast.makeText(getActivity(), "Login Failed",
                                                 Toast.LENGTH_SHORT).show();
                                         loadingBar.setVisibility(View.GONE);
+                                        getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
                                     }
 
@@ -140,6 +144,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         loadingBar.setVisibility(View.VISIBLE);
+                        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         String emailAddress = input.getText().toString();
 
                         mAuth.sendPasswordResetEmail(emailAddress)
@@ -148,10 +154,12 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if (task.isSuccessful()) {
                                             loadingBar.setVisibility(View.GONE);
+                                            getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                                             Toast.makeText(getActivity(),"Reset Password Email sent to yout email address", Toast.LENGTH_SHORT).show();
                                         }
                                         else{
                                             loadingBar.setVisibility(View.GONE);
+                                            getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                                             Toast.makeText(getActivity(),"Invalid Email Address", Toast.LENGTH_SHORT).show();
 
                                         }
