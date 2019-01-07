@@ -119,5 +119,16 @@
         android:text="@string/submit"
         android:textAllCaps="false" />
 
+    <ProgressBar
+        android:id="@+id/create_post_loading_bar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="197dp"
+        android:layout_height="165dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="75dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="150dp"
+        android:visibility="gone" />
+
 
 </RelativeLayout>

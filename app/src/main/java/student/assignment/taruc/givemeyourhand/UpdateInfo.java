@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -72,12 +73,15 @@ public class UpdateInfo extends Fragment implements View.OnClickListener {
     public void onStart() {
         super.onStart();
         loadingBar.setVisibility(View.VISIBLE);
+        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         username.setText(currentUser.getDisplayName());
         firebaseDatabase.getReference().child("User").child(currentUser.getUid()).child("Phone").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 phone.setText(dataSnapshot.getValue(String.class));
                 loadingBar.setVisibility(View.GONE);
+                getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             }
 
             @Override
@@ -92,6 +96,8 @@ public class UpdateInfo extends Fragment implements View.OnClickListener {
         if(view.getId() == R.id.confirm_update_info){
             if(checkValidation()){
                 loadingBar.setVisibility(View.VISIBLE);
+                getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 UserProfileChangeRequest profileUpdate = new UserProfileChangeRequest.Builder()
                         .setDisplayName(username.getText().toString())
                         .build();
@@ -100,7 +106,8 @@ public class UpdateInfo extends Fragment implements View.OnClickListener {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(getActivity(), "Update Success.", Toast.LENGTH_SHORT);
-                        loadingBar.setVisibility(View.INVISIBLE);
+                        loadingBar.setVisibility(View.GONE);
+                        getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_container, new ProfileFragment()).commit();
                     }
                 });

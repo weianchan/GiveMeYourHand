@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -89,9 +90,13 @@ public class MainActivity extends AppCompatActivity
     public void onStart() {
         super.onStart();
         loadingBar.setVisibility(View.VISIBLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         currentUser = mAuth.getCurrentUser();
         updateUI();
         loadingBar.setVisibility(View.GONE);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        fragmentManager.beginTransaction().replace(R.id.main_fragment_container, new ListFragment()).commit();
     }
 
     private void updateUI() {

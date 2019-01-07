@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -98,6 +99,8 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
 
                 if(checkValidation()){
                     loadingBar.setVisibility(View.VISIBLE);
+                    getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                     mAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
                             .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                                 @Override
@@ -133,6 +136,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                                                                         myRef.setValue(info);
 
                                                                         loadingBar.setVisibility(View.GONE);
+                                                                        getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
                                                                         startActivity(new Intent(getActivity(), MainActivity.class));
                                                                         getActivity().finish();
@@ -162,6 +166,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                                                     info.put("Phone", phone.getText().toString());
                                                     myRef.setValue(info);
                                                     loadingBar.setVisibility(View.GONE);
+                                                    getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
                                                     startActivity(new Intent(getActivity(), MainActivity.class));
                                                     getActivity().finish();
@@ -175,6 +180,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                                     } else {
                                         // If sign in fails, display a message to the user.
                                         loadingBar.setVisibility(View.GONE);
+                                        getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                                         Log.w(TAG, "createUserWithEmail:failure", task.getException());
                                         Toast.makeText(getActivity(), "Authentication failed.",
                                                 Toast.LENGTH_SHORT).show();

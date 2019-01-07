@@ -18,6 +18,7 @@ import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -102,6 +103,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     public void onStart() {
         super.onStart();
         loadingBar.setVisibility(View.VISIBLE);
+        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         loadingBar.bringToFront();
         username.setText(currentUser.getDisplayName());
         userEmail.setText(currentUser.getEmail());
@@ -117,6 +120,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 userPhone.setText(dataSnapshot.child("Phone").getValue(String.class));
                 loadingBar.setVisibility(View.GONE);
+                getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             }
 
             @Override
@@ -147,6 +151,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         loadingBar.setVisibility(View.VISIBLE);
+                        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         loadingBar.bringToFront();
                         AuthCredential credential = EmailAuthProvider.getCredential(currentUser.getEmail(), input.getText().toString());
 
@@ -156,6 +162,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if(task.isSuccessful()){
                                             loadingBar.setVisibility(View.GONE);
+                                            getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                                             final AlertDialog.Builder newBuilder = new AlertDialog.Builder(getActivity());
                                             LinearLayout layout = new LinearLayout(getActivity());
                                             layout.setOrientation(LinearLayout.VERTICAL);
@@ -176,6 +183,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                                                 @Override
                                                 public void onClick(DialogInterface dialogInterface, int i) {
                                                     loadingBar.setVisibility(View.VISIBLE);
+                                                    getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                                                     loadingBar.bringToFront();
                                                     if(password.getText().toString().equals(confirmPassword.getText().toString())){
                                                         currentUser.updatePassword(password.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -183,6 +192,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                                                             public void onComplete(@NonNull Task<Void> task) {
                                                                 if (task.isSuccessful()) {
                                                                     loadingBar.setVisibility(View.GONE);
+                                                                    getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                                                                     Toast.makeText(getActivity(),"Password updated", Toast.LENGTH_SHORT).show();
                                                                 } else {
                                                                     Toast.makeText(getActivity(),"Error password not updated", Toast.LENGTH_SHORT).show();
@@ -235,6 +245,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                     }
                     if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                         loadingBar.setVisibility(View.VISIBLE);
+                        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         loadingBar.bringToFront();
                         Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                         intent.setType("image/*");
@@ -281,6 +293,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                                         .into(navProfile);
 
                                 loadingBar.setVisibility(View.GONE);
+                                getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
 
                             }
