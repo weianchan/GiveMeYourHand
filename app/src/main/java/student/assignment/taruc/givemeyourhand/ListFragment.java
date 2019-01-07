@@ -1,12 +1,15 @@
 package student.assignment.taruc.givemeyourhand;
 
 import android.app.Fragment;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.RecoverySystem;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +29,12 @@ import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+
+import id.zelory.compressor.Compressor;
+
 public class ListFragment extends android.support.v4.app.Fragment {
 
     private View view;
@@ -33,6 +42,8 @@ public class ListFragment extends android.support.v4.app.Fragment {
 
     private DatabaseReference postReference, idReference;
     private FirebaseAuth mAuth;
+    private Bitmap bitmap;
+    private Uri path;
 
     @Nullable
     @Override
@@ -41,7 +52,6 @@ public class ListFragment extends android.support.v4.app.Fragment {
         view = inflater.inflate(R.layout.fragment_list,container,false);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.listRecyclerView);
-
 
         //recyclerView.setAdapter(customAdapter);
 
@@ -71,8 +81,6 @@ public class ListFragment extends android.support.v4.app.Fragment {
             {
                 String postID = getRef(position).getKey();
 
-
-
                 postReference.child(postID).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot)
@@ -83,249 +91,70 @@ public class ListFragment extends android.support.v4.app.Fragment {
                             String secondImage = dataSnapshot.child("image2").getValue().toString();
                             String thirdImage = dataSnapshot.child("image3").getValue().toString();
 
+                            //path = Uri.parse(firstImage);
+
                             String owner = dataSnapshot.child("Owner").getValue().toString();
-                            String postTitle = dataSnapshot.child("Title").getValue().toString();
-                            String postContent = dataSnapshot.child("Content").getValue().toString();
-                            String postAcc = dataSnapshot.child("AccountNo").getValue().toString();
-                            String postContact = dataSnapshot.child("ContactNo").getValue().toString();
-
-                            idReference.child(owner).addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    if(dataSnapshot.hasChild("Username"))
-                                    {
-                                        String username = dataSnapshot.child("Username").getValue().toString();
-                                        holder.userName.setText(username);
-                                        if(dataSnapshot.hasChild("ProfilePic"))
-                                        {
-                                            String profile = dataSnapshot.child("ProfilePic").getValue().toString();
-                                            Picasso.get().load(profile).placeholder(R.drawable.ic_person_black_24dp).into(holder.profilePic);
-                                        }
-                                    }
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                }
-                            });
 
                             Picasso.get().load(firstImage).placeholder(R.drawable.ic_no_image).into(holder.image1);
                             Picasso.get().load(secondImage).placeholder(R.drawable.ic_no_image).into(holder.image2);
                             Picasso.get().load(thirdImage).placeholder(R.drawable.ic_no_image).into(holder.image3);
-                            holder.title.setText(postTitle);
-                            holder.content.setText(postContent);
 
-                            if(postAcc.equals("") && postContact.equals(""))
-                            {
-                                holder.contact_label.setVisibility(View.GONE);
-                                holder.contact.setVisibility(View.GONE);
-                                holder.acc_label.setVisibility(View.GONE);
-                                holder.bankAcc.setVisibility(View.GONE);
-                            }
-                            else if(postAcc.equals(""))
-                            {
-                                holder.acc_label.setVisibility(View.GONE);
-                                holder.bankAcc.setVisibility(View.GONE);
-                                holder.contact.setText(postContact);
-                            }
-                            else if(postContact.equals(""))
-                            {
-                                holder.contact_label.setVisibility(View.GONE);
-                                holder.contact.setVisibility(View.GONE);
-                                holder.bankAcc.setText(postAcc);
-                            }
-                            else
-                            {
-                                holder.bankAcc.setText(postAcc);
-                                holder.contact.setText(postContact);
-                            }
                         }
                         else if(dataSnapshot.hasChild("image1") && !dataSnapshot.hasChild("image2") && !dataSnapshot.hasChild("image3"))
                         {
                             String firstImage = dataSnapshot.child("image1").getValue().toString();
 
-                            String owner = dataSnapshot.child("Owner").getValue().toString();
-                            String postTitle = dataSnapshot.child("Title").getValue().toString();
-                            String postContent = dataSnapshot.child("Content").getValue().toString();
-                            String postAcc = dataSnapshot.child("AccountNo").getValue().toString();
-                            String postContact = dataSnapshot.child("ContactNo").getValue().toString();
-
-                            idReference.child(owner).addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    if(dataSnapshot.hasChild("Username"))
-                                    {
-                                        String username = dataSnapshot.child("Username").getValue().toString();
-                                        holder.userName.setText(username);
-                                        if(dataSnapshot.hasChild("ProfilePic"))
-                                        {
-                                            String profile = dataSnapshot.child("ProfilePic").getValue().toString();
-                                            Picasso.get().load(profile).placeholder(R.drawable.ic_person_black_24dp).into(holder.profilePic);
-                                        }
-                                    }
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                }
-                            });
-
                             Picasso.get().load(firstImage).placeholder(R.drawable.ic_no_image).into(holder.image1);
                             holder.image2.setVisibility(View.GONE);
                             holder.image3.setVisibility(View.GONE);
-                            holder.title.setText(postTitle);
-                            holder.content.setText(postContent);
-
-                            if(postAcc.equals("") && postContact.equals(""))
-                            {
-                                holder.contact_label.setVisibility(View.GONE);
-                                holder.contact.setVisibility(View.GONE);
-                                holder.acc_label.setVisibility(View.GONE);
-                                holder.bankAcc.setVisibility(View.GONE);
-                            }
-                            else if(postAcc.equals(""))
-                            {
-                                holder.acc_label.setVisibility(View.GONE);
-                                holder.bankAcc.setVisibility(View.GONE);
-                                holder.contact.setText(postContact);
-                            }
-                            else if(postContact.equals(""))
-                            {
-                                holder.contact_label.setVisibility(View.GONE);
-                                holder.contact.setVisibility(View.GONE);
-                                holder.bankAcc.setText(postAcc);
-                            }
-                            else
-                            {
-                                holder.bankAcc.setText(postAcc);
-                                holder.contact.setText(postContact);
-                            }
                         }
                         else if(dataSnapshot.hasChild("image1") && dataSnapshot.hasChild("image2") && !dataSnapshot.hasChild("image3"))
                         {
                             String firstImage = dataSnapshot.child("image1").getValue().toString();
                             String secondImage = dataSnapshot.child("image2").getValue().toString();
 
-                            String owner = dataSnapshot.child("Owner").getValue().toString();
-                            String postTitle = dataSnapshot.child("Title").getValue().toString();
-                            String postContent = dataSnapshot.child("Content").getValue().toString();
-                            String postAcc = dataSnapshot.child("AccountNo").getValue().toString();
-                            String postContact = dataSnapshot.child("ContactNo").getValue().toString();
-
-                            idReference.child(owner).addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    if(dataSnapshot.hasChild("Username"))
-                                    {
-                                        String username = dataSnapshot.child("Username").getValue().toString();
-                                        holder.userName.setText(username);
-                                        if(dataSnapshot.hasChild("ProfilePic"))
-                                        {
-                                            String profile = dataSnapshot.child("ProfilePic").getValue().toString();
-                                            Picasso.get().load(profile).placeholder(R.drawable.ic_person_black_24dp).into(holder.profilePic);
-                                        }
-                                    }
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                }
-                            });
-
                             Picasso.get().load(firstImage).placeholder(R.drawable.ic_no_image).into(holder.image1);
                             Picasso.get().load(secondImage).placeholder(R.drawable.ic_no_image).into(holder.image2);
                             holder.image3.setVisibility(View.GONE);
-
-                            holder.title.setText(postTitle);
-                            holder.content.setText(postContent);
-
-                            if(postAcc.equals("") && postContact.equals(""))
-                            {
-                                holder.contact_label.setVisibility(View.GONE);
-                                holder.contact.setVisibility(View.GONE);
-                                holder.acc_label.setVisibility(View.GONE);
-                                holder.bankAcc.setVisibility(View.GONE);
-                            }
-                            else if(postAcc.equals(""))
-                            {
-                                holder.acc_label.setVisibility(View.GONE);
-                                holder.bankAcc.setVisibility(View.GONE);
-                                holder.contact.setText(postContact);
-                            }
-                            else if(postContact.equals(""))
-                            {
-                                holder.contact_label.setVisibility(View.GONE);
-                                holder.contact.setVisibility(View.GONE);
-                                holder.bankAcc.setText(postAcc);
-                            }
-                            else
-                            {
-                                holder.bankAcc.setText(postAcc);
-                                holder.contact.setText(postContact);
-                            }
                         }
                         else
                         {
-                            String owner = dataSnapshot.child("Owner").getValue().toString();
-                            String postTitle = dataSnapshot.child("Title").getValue().toString();
-                            String postContent = dataSnapshot.child("Content").getValue().toString();
-                            String postAcc = dataSnapshot.child("AccountNo").getValue().toString();
-                            String postContact = dataSnapshot.child("ContactNo").getValue().toString();
-
-                            idReference.child(owner).addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    if(dataSnapshot.hasChild("Username"))
-                                    {
-                                        String username = dataSnapshot.child("Username").getValue().toString();
-                                        holder.userName.setText(username);
-                                        if(dataSnapshot.hasChild("ProfilePic"))
-                                        {
-                                            String profile = dataSnapshot.child("ProfilePic").getValue().toString();
-                                            Picasso.get().load(profile).placeholder(R.drawable.ic_person_black_24dp).into(holder.profilePic);
-                                        }
-                                    }
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                }
-                            });
-
                             holder.image1.setVisibility(View.GONE);
                             holder.image2.setVisibility(View.GONE);
                             holder.image3.setVisibility(View.GONE);
-                            holder.title.setText(postTitle);
-                            holder.content.setText(postContent);
+                        }
 
-                            if(postAcc.equals("") && postContact.equals(""))
-                            {
-                                holder.contact_label.setVisibility(View.GONE);
-                                holder.contact.setVisibility(View.GONE);
-                                holder.acc_label.setVisibility(View.GONE);
-                                holder.bankAcc.setVisibility(View.GONE);
-                            }
-                            else if(postAcc.equals(""))
-                            {
-                                holder.acc_label.setVisibility(View.GONE);
-                                holder.bankAcc.setVisibility(View.GONE);
-                                holder.contact.setText(postContact);
-                            }
-                            else if(postContact.equals(""))
-                            {
-                                holder.contact_label.setVisibility(View.GONE);
-                                holder.contact.setVisibility(View.GONE);
-                                holder.bankAcc.setText(postAcc);
-                            }
-                            else
-                            {
-                                holder.bankAcc.setText(postAcc);
-                                holder.contact.setText(postContact);
-                            }
+                        String postTitle = dataSnapshot.child("Title").getValue().toString();
+                        String postContent = dataSnapshot.child("Content").getValue().toString();
+                        String postAcc = dataSnapshot.child("AccountNo").getValue().toString();
+                        String postContact = dataSnapshot.child("ContactNo").getValue().toString();
+
+                        holder.title.setText(postTitle);
+                        holder.content.setText(postContent);
+
+                        if(postAcc.equals("") && postContact.equals(""))
+                        {
+                            holder.contact_label.setVisibility(View.GONE);
+                            holder.contact.setVisibility(View.GONE);
+                            holder.acc_label.setVisibility(View.GONE);
+                            holder.bankAcc.setVisibility(View.GONE);
+                        }
+                        else if(postAcc.equals(""))
+                        {
+                            holder.acc_label.setVisibility(View.GONE);
+                            holder.bankAcc.setVisibility(View.GONE);
+                            holder.contact.setText(postContact);
+                        }
+                        else if(postContact.equals(""))
+                        {
+                            holder.contact_label.setVisibility(View.GONE);
+                            holder.contact.setVisibility(View.GONE);
+                            holder.bankAcc.setText(postAcc);
+                        }
+                        else
+                        {
+                            holder.bankAcc.setText(postAcc);
+                            holder.contact.setText(postContact);
                         }
                     }
 
@@ -361,14 +190,10 @@ public class ListFragment extends android.support.v4.app.Fragment {
         TextView title, content, bankAcc, contact;
         ImageView image1, image2, image3;
         TextView acc_label, contact_label;
-        TextView userName;
-        ImageView profilePic;
+
 
         public postViewHolder(View itemView) {
             super(itemView);
-
-            profilePic = itemView.findViewById(R.id.profilePic);
-            userName = itemView.findViewById(R.id.username);
 
             title = itemView.findViewById(R.id.textDesc);
             content = itemView.findViewById(R.id.content);

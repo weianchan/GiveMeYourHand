@@ -5,50 +5,29 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-        <android.support.v4.widget.CircleImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:id="@+id/profilePic"
-            android:background="@drawable/ic_person_black_24dp"/>
+    <ImageView
+        android:id="@+id/first"
+        android:layout_width="120dp"
+        android:layout_height="120dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_toRightOf="@id/profilePic"
-            android:id="@+id/username"
-            android:text="Name of the User"/>
+    <ImageView
+        android:id="@+id/second"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_toRightOf="@+id/first"/>
 
-        <ImageView
-            android:id="@+id/first"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_below="@+id/profilePic"/>
+    <ImageView
+        android:id="@+id/third"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_toRightOf="@+id/second" />
 
-        <ImageView
-            android:id="@+id/second"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="50dp"
-            android:layout_toRightOf="@+id/first" />
+</RelativeLayout>
 
-        <ImageView
-            android:id="@+id/third"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="50dp"
-            android:layout_toRightOf="@+id/second" />
-
-
-    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
