@@ -128,7 +128,7 @@
             android:inputType="textMultiLine"/>
 
         <Button
-            android:id="@+id/confirm"
+            android:id="@+id/comment_confirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"

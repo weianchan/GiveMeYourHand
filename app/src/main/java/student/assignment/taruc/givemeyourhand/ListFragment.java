@@ -13,13 +13,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,16 +37,18 @@ import org.w3c.dom.Text;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 
 import id.zelory.compressor.Compressor;
 
 public class ListFragment extends android.support.v4.app.Fragment {
 
     private View view;
-    private  RecyclerView recyclerView;
+    private RecyclerView recyclerView;
 
-    private DatabaseReference postReference, idReference;
-    private FirebaseAuth mAuth;
+    private DatabaseReference postReference, idReference, commentReference;
     private Bitmap bitmap;
     private Uri path;
 
@@ -57,9 +64,9 @@ public class ListFragment extends android.support.v4.app.Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mAuth.getInstance();
         postReference = FirebaseDatabase.getInstance().getReference().child("Post");
         idReference = FirebaseDatabase.getInstance().getReference().child("User");
+        commentReference = FirebaseDatabase.getInstance().getReference().child("Comment");
 
         return view;
     }
@@ -79,7 +86,37 @@ public class ListFragment extends android.support.v4.app.Fragment {
             @Override
             protected void onBindViewHolder(@NonNull final postViewHolder holder, final int position, @NonNull OurData model)
             {
-                String postID = getRef(position).getKey();
+                final String postID = getRef(position).getKey();
+
+                holder.commentButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(holder.commentTxt.getText().toString().equals("")){
+                            Toast.makeText(getActivity(),"Empty Comment",Toast.LENGTH_SHORT);
+                        }
+                        else{
+
+                            DatabaseReference newComment = commentReference.push();
+                            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                            SimpleDateFormat s = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+                            String currentDate = s.format(new Date());
+                            String comment = holder.commentTxt.getText().toString();
+
+                            HashMap hashMap = new HashMap();
+                            hashMap.put("Content", comment);
+                            hashMap.put("Post", postID);
+                            hashMap.put("Owner", currentUser);
+                            hashMap.put("Date", currentDate);
+
+                            newComment.setValue(hashMap);
+
+                        }
+
+
+                    }
+                });
+
+
 
                 postReference.child(postID).addValueEventListener(new ValueEventListener() {
                     @Override
@@ -184,6 +221,7 @@ public class ListFragment extends android.support.v4.app.Fragment {
                 });
 
 
+
             }
 
             @NonNull
@@ -203,12 +241,14 @@ public class ListFragment extends android.support.v4.app.Fragment {
     }
 
 
-
     public static class postViewHolder extends RecyclerView.ViewHolder
     {
         TextView title, content, bankAcc, contact;
         ImageView image1, image2, image3, profilePic;
         TextView acc_label, contact_label, userName;
+        EditText commentTxt;
+        Button commentButton;
+
 
 
 
@@ -226,6 +266,8 @@ public class ListFragment extends android.support.v4.app.Fragment {
             image3 = itemView.findViewById(R.id.third);
             acc_label = itemView.findViewById(R.id.accNoLabel);
             contact_label = itemView.findViewById(R.id.contactLabel);
+            commentTxt = itemView.findViewById(R.id.textComment);
+            commentButton = itemView.findViewById(R.id.comment_confirm);
 
         }
     }
