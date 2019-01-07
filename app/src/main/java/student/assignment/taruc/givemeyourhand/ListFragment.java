@@ -1,6 +1,7 @@
 package student.assignment.taruc.givemeyourhand;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -105,10 +107,14 @@ public class ListFragment extends android.support.v4.app.Fragment {
                             HashMap hashMap = new HashMap();
                             hashMap.put("Content", comment);
                             hashMap.put("Post", postID);
-                            hashMap.put("Owner", currentUser);
+                            hashMap.put("Owner", currentUser.getUid());
                             hashMap.put("Date", currentDate);
 
                             newComment.setValue(hashMap);
+                            holder.commentTxt.setText("");
+                            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+
 
                         }
 
