@@ -81,6 +81,8 @@ public class MainActivity extends AppCompatActivity
         navEmail.setOnClickListener(this);
         navProfile.setOnClickListener(this);
 
+        fragmentManager.beginTransaction().replace(R.id.main_fragment_container, new ListFragment()).commit();
+
     }
 
     @Override
@@ -90,7 +92,6 @@ public class MainActivity extends AppCompatActivity
         currentUser = mAuth.getCurrentUser();
         updateUI();
         loadingBar.setVisibility(View.GONE);
-        fragmentManager.beginTransaction().replace(R.id.main_fragment_container, new ListFragment()).commit();
     }
 
     private void updateUI() {

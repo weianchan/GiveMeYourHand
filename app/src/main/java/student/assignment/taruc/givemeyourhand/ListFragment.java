@@ -93,8 +93,6 @@ public class ListFragment extends android.support.v4.app.Fragment {
 
                             //path = Uri.parse(firstImage);
 
-                            String owner = dataSnapshot.child("Owner").getValue().toString();
-
                             Picasso.get().load(firstImage).placeholder(R.drawable.ic_no_image).into(holder.image1);
                             Picasso.get().load(secondImage).placeholder(R.drawable.ic_no_image).into(holder.image2);
                             Picasso.get().load(thirdImage).placeholder(R.drawable.ic_no_image).into(holder.image3);
@@ -123,6 +121,27 @@ public class ListFragment extends android.support.v4.app.Fragment {
                             holder.image2.setVisibility(View.GONE);
                             holder.image3.setVisibility(View.GONE);
                         }
+
+                        String owner = dataSnapshot.child("Owner").getValue().toString();
+                        idReference.child(owner).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if(dataSnapshot.hasChild("Username"))
+                                {
+                                    String username = dataSnapshot.child("Username").getValue().toString();
+                                    holder.userName.setText(username);
+                                    if(dataSnapshot.hasChild("ProfilePic"))
+                                    {
+                                        String profile = dataSnapshot.child("ProfilePic").getValue().toString();
+                                        Picasso.get().load(profile).placeholder(R.drawable.ic_person_black_24dp).into(holder.profilePic);
+                                    }
+                                }
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
 
                         String postTitle = dataSnapshot.child("Title").getValue().toString();
                         String postContent = dataSnapshot.child("Content").getValue().toString();
@@ -188,13 +207,16 @@ public class ListFragment extends android.support.v4.app.Fragment {
     public static class postViewHolder extends RecyclerView.ViewHolder
     {
         TextView title, content, bankAcc, contact;
-        ImageView image1, image2, image3;
-        TextView acc_label, contact_label;
+        ImageView image1, image2, image3, profilePic;
+        TextView acc_label, contact_label, userName;
+
 
 
         public postViewHolder(View itemView) {
             super(itemView);
 
+            profilePic = itemView.findViewById(R.id.profilePic);
+            userName = itemView.findViewById(R.id.username);
             title = itemView.findViewById(R.id.textDesc);
             content = itemView.findViewById(R.id.content);
             bankAcc = itemView.findViewById(R.id.bank_acc);

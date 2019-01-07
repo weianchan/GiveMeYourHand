@@ -2,8 +2,10 @@ package student.assignment.taruc.givemeyourhand;
 
 
 import android.app.Activity;
+import android.app.Instrumentation;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -31,6 +33,10 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,6 +45,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import id.zelory.compressor.Compressor;
 
 
 /**
@@ -101,10 +109,12 @@ public class UploadPostFragment extends Fragment implements View.OnClickListener
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Picasso picasso = Picasso.get();
+
         if(resultCode == Activity.RESULT_OK && data!= null){
 
             if(requestCode == SELECT_PICTURES_1){
                 Uri imageUri = data.getData();
+
                 picasso.load(imageUri).fit().centerCrop()
                         .placeholder(R.drawable.ic_image_24dp)
                         .error(R.drawable.ic_image_24dp)
