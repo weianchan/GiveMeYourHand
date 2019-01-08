@@ -19,10 +19,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="20dp"
-            android:layout_toRightOf="@id/profilePic"
+            android:layout_toEndOf="@id/profilePic"
             android:id="@+id/username"
-            android:layout_marginLeft="10dp"
-            android:text="Name of the User"
+            android:layout_marginStart="10dp"
+            android:text="@string/name_of_the_user"
             android:textStyle="bold"/>
 
         <TextView
@@ -31,9 +31,9 @@
             android:layout_height="20dp"
             android:layout_below="@+id/username"
             android:layout_marginTop="10dp"
-            android:layout_toRightOf="@id/profilePic"
-            android:layout_marginLeft="10dp"
-            android:text="Date of Post" />
+            android:layout_toEndOf="@id/profilePic"
+            android:layout_marginStart="10dp"
+            android:text="@string/date_of_post" />
 
         <ImageView
             android:id="@+id/first"
@@ -47,18 +47,18 @@
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="60dp"
-            android:layout_toRightOf="@+id/first" />
+            android:layout_toEndOf="@+id/first" />
 
         <ImageView
             android:id="@+id/third"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="60dp"
-            android:layout_toRightOf="@+id/second" />
+            android:layout_toEndOf="@+id/second" />
 
         <ImageButton
             android:id="@+id/like"
@@ -83,12 +83,12 @@
             android:layout_height="wrap_content"
             android:id="@+id/textDesc"
             android:textSize="38dp"
-            android:text="Title"
+            android:text="@string/title"
             android:textStyle="bold"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Content: "
+            android:text="@string/content"
             android:textSize="22dp"
             android:textStyle="bold"/>
         <TextView
@@ -96,12 +96,12 @@
             android:layout_height="wrap_content"
             android:id="@+id/content"
             android:textSize="20dp"
-            android:text="This is the Content"/>
+            android:text="@string/this_is_the_content"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/accNoLabel"
-            android:text="Account No: "
+            android:text="@string/account_no"
             android:textSize="22dp"
             android:textStyle="bold"/>
         <TextView
@@ -109,12 +109,12 @@
             android:layout_height="wrap_content"
             android:id="@+id/bank_acc"
             android:textSize="18dp"
-            android:text="This is the bank account number"/>
+            android:text="@string/this_is_the_bank_account_number"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/contactLabel"
-            android:text="Contact No: "
+            android:text="@string/contact_no"
             android:textSize="22dp"
             android:textStyle="bold"/>
         <TextView
@@ -122,20 +122,20 @@
             android:layout_height="wrap_content"
             android:id="@+id/contactNo"
             android:textSize="18dp"
-            android:text="This is the contact Number"/>
+            android:text="@string/this_is_the_contact_number"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/location_label"
             android:textSize="22dp"
-            android:text="Location:"/>
+            android:text="@string/location"/>
 
         <TextView
             android:id="@+id/location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="This is the Location"
+            android:text="@string/this_is_the_location"
             android:textColor="@color/colorAccent"
             android:textSize="18dp" />
 
@@ -147,42 +147,51 @@
 
             <EditText
                 android:id="@+id/textComment"
-                android:layout_width="wrap_content"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="@string/place_a_comment"
-                android:inputType="textMultiLine" />
+                android:inputType="textMultiLine"
+                android:layoutDirection="rtl" />
 
             <Button
                 android:id="@+id/comment_confirm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_marginLeft="60dp"
                 android:layout_toRightOf="@+id/textComment"
-                android:text="Confirm" />
+                android:layoutDirection="rtl"
+                android:text="@string/send" />
 
-            <Button
-                android:id="@+id/like_btn"
-                android:layout_marginTop="45dp"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Like" />
+                android:layout_below="@+id/textComment"
+                android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/comment_btn"
-                android:layout_marginTop="45dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                <Button
+                    android:id="@+id/like_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/like" />
 
-                android:text="View Comment" />
+                <Button
+                    android:id="@+id/comment_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/view_comment" />
 
-            <Button
-                android:id="@+id/report_btn"
-                android:layout_marginTop="45dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Report" />
+                <Button
+                    android:id="@+id/report_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/report" />
+
+            </LinearLayout>
+
 
 
         </RelativeLayout>

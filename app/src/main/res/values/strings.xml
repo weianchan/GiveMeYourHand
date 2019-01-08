@@ -40,4 +40,19 @@
     <string name="enter_location_optional">Enter Location (Optional)</string>
     <string name="comment_of_the_post">Comment of the post</string>
     <string name="Location_map">Location</string>
+    <string name="name_of_the_user">Name of the User</string>
+    <string name="date_of_post">Date of Post</string>
+    <string name="title">Title</string>
+    <string name="content">Content:</string>
+    <string name="this_is_the_content">This is the Content</string>
+    <string name="account_no">Account No:</string>
+    <string name="this_is_the_bank_account_number">This is the bank account number</string>
+    <string name="contact_no">Contact No:</string>
+    <string name="this_is_the_contact_number">This is the contact Number</string>
+    <string name="location">Location:</string>
+    <string name="this_is_the_location">This is the Location</string>
+    <string name="send">Send</string>
+    <string name="like">Like</string>
+    <string name="view_comment">View Comment</string>
+    <string name="report">Report</string>
 </resources>
