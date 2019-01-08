@@ -9,6 +9,7 @@ public class Comment {
     private String Owner;
     private String Post;
 
+    //COMMENT CLASS
     public Comment(String content, String date, String owner, String post) {
         Content = content;
         Date = date;
