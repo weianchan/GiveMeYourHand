@@ -60,14 +60,13 @@
             android:layout_marginTop="60dp"
             android:layout_toEndOf="@+id/second" />
 
-        <ImageButton
+        <TextView
             android:id="@+id/like"
-            android:layout_width="33dp"
+            android:layout_width="wrap_content"
             android:layout_height="34dp"
-
             android:layout_below="@+id/username"
             android:layout_alignParentEnd="true"
-            android:background="@drawable/ic_like_24dp" />
+            android:drawableStart="@drawable/ic_like_24dp" />
 
 
     </RelativeLayout>
@@ -165,28 +164,29 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:layout_below="@+id/textComment"
                 android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/like_btn"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:drawableStart="@drawable/ic_like_24dp"
                     android:text="@string/like" />
 
                 <Button
                     android:id="@+id/comment_btn"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="@string/view_comment" />
 
                 <Button
                     android:id="@+id/report_btn"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="@string/report" />
 

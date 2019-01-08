@@ -58,6 +58,7 @@ public class ListFragment extends android.support.v4.app.Fragment {
 
     private View view;
     private RecyclerView recyclerView;
+    private static final String TAG = "PostRecycleView:";
 
     private DatabaseReference postReference, idReference, commentReference;
 
@@ -92,6 +93,45 @@ public class ListFragment extends android.support.v4.app.Fragment {
             protected void onBindViewHolder(@NonNull final postViewHolder holder, final int position, @NonNull OurData model)
             {
                 final String postID = getRef(position).getKey();
+
+                DatabaseReference likeRef = FirebaseDatabase.getInstance().getReference().child("Like");
+
+                likeRef.orderByChild("Post").equalTo(postID).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        long count = dataSnapshot.getChildrenCount();
+                        Log.d(TAG, "Number of data:" + count);
+                        holder.like.setText(String.valueOf(count));
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+
+                FirebaseDatabase.getInstance().getReference().child("Like").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        String currentUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                        if(dataSnapshot.hasChild(postID + currentUser)){
+                            Log.d(TAG, "Set to red");
+                            holder.like.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_liked_24dp,0,0,0);
+                            holder.likeButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_liked_24dp,0,0,0);
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+
+
 
                 holder.commentButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -142,6 +182,46 @@ public class ListFragment extends android.support.v4.app.Fragment {
                         Intent intent = new Intent(getActivity().getApplicationContext(), commentActivity.class);
                         intent.putExtra("postId", postID);
                         startActivity(intent);
+                    }
+                });
+
+                holder.likeButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final String currentUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                        FirebaseDatabase.getInstance().getReference().child("Like").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if(dataSnapshot.hasChild(postID + currentUser)){
+                                    Log.d(TAG, "Remove like");
+                                    FirebaseDatabase.getInstance().getReference().child("Like").child(postID + currentUser).removeValue();
+                                    holder.like.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_like_24dp,0,0,0);
+                                    holder.likeButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_like_24dp,0,0,0);
+                                    holder.like.setText(String.valueOf(Long.parseLong(holder.like.getText().toString())-1));
+                                }
+                                else{
+                                    HashMap hashMap = new HashMap();
+                                    hashMap.put("Post", postID);
+                                    hashMap.put("User", currentUser);
+                                    FirebaseDatabase.getInstance().getReference().child("Like").child(postID + currentUser).setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.d(TAG, "liked");
+                                            holder.like.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_liked_24dp,0,0,0);
+                                            holder.likeButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_liked_24dp,0,0,0);
+                                            holder.like.setText(String.valueOf(Long.parseLong(holder.like.getText().toString())+1));
+                                        }
+                                    });
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
+
                     }
                 });
 
@@ -294,8 +374,8 @@ public class ListFragment extends android.support.v4.app.Fragment {
         ImageView image1, image2, image3, profilePic;
         TextView acc_label, contact_label, userName, locationLabel, location;
         EditText commentTxt;
-        Button commentButton, viewCommentBtn;
-        TextView datePost;
+        Button commentButton, viewCommentBtn, likeButton, reportButton;
+        TextView datePost, like;
 
 
         public postViewHolder(View itemView) {
@@ -318,6 +398,9 @@ public class ListFragment extends android.support.v4.app.Fragment {
             viewCommentBtn = itemView.findViewById(R.id.comment_btn);
             locationLabel = itemView.findViewById(R.id.location_label);
             location = itemView.findViewById(R.id.location);
+            like = itemView.findViewById(R.id.like);
+            likeButton = itemView.findViewById(R.id.like_btn);
+            reportButton = itemView.findViewById(R.id.report_btn);
 
 
         }

@@ -28,7 +28,9 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_like_24dp" />
+                            <entry key="color" value="ff0c15" />
+                            <entry key="opacityPercent" value="90" />
+                            <entry key="outputName" value="ic_liked_24dp" />
                             <entry key="sourceFile" value="C:\Users\LokeCY" />
                           </map>
                         </option>
