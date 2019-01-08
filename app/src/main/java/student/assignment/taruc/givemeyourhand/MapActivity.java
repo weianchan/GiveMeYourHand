@@ -37,7 +37,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         mMap = googleMap;
 
         Intent intent = getIntent();
-        String locationTxt = intent.getStringExtra("Location");
+        String locationTxt = intent.getExtras().get("Location").toString();
 
         Geocoder geocoder = new Geocoder(MapActivity.this);
         List<Address> list = new ArrayList<>();

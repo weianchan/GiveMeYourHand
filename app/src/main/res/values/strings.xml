@@ -19,8 +19,6 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="terms_condition">Agree All the Terms and Conditions.</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="log_out">Log out</string>
     <string name="exit">Exit</string>
     <string name="create_your_post">Create Your Post</string>
@@ -40,4 +38,5 @@
     <string name="update_information">Update Information</string>
     <string name="change_password">Change Password</string>
     <string name="enter_location_optional">Enter Location (Optional)</string>
+    <string name="comment_of_the_post">Comment of the post</string>
 </resources>

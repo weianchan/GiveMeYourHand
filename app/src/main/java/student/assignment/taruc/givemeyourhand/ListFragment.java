@@ -97,7 +97,7 @@ public class ListFragment extends android.support.v4.app.Fragment {
                     @Override
                     public void onClick(View view) {
                         if(holder.commentTxt.getText().toString().equals("")){
-                            Toast.makeText(getActivity(),"Empty Comment",Toast.LENGTH_SHORT);
+                            Toast.makeText(getActivity(),"Empty comment",Toast.LENGTH_SHORT);
                         }
                         else{
 
@@ -123,15 +123,24 @@ public class ListFragment extends android.support.v4.app.Fragment {
                     }
                 });
 
-                holder.viewCommentBtn.setOnClickListener(new View.OnClickListener()
-                {
+                holder.location.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        Intent intent = new Intent(getActivity().getApplicationContext(), MapActivity.class);
+                        intent.putExtra("Location", holder.location.getText().toString());
+                        startActivity(intent);
+                    }
+                });
+
+                holder.viewCommentBtn.setOnClickListener(new View.OnClickListener() {
 
                     @Override
                     public void onClick(View view) {
 
 
                         Intent intent = new Intent(getActivity().getApplicationContext(), commentActivity.class);
-                        intent.putExtra("postId",postID);
+                        intent.putExtra("postId", postID);
                         startActivity(intent);
                     }
                 });
@@ -202,6 +211,15 @@ public class ListFragment extends android.support.v4.app.Fragment {
                         String postContent = dataSnapshot.child("Content").getValue().toString();
                         String postAcc = dataSnapshot.child("AccountNo").getValue().toString();
                         String postContact = dataSnapshot.child("ContactNo").getValue().toString();
+                        String location = dataSnapshot.child("Location").getValue().toString();
+
+                        if(!location.equals("")){
+                            holder.location.setText(location);
+                        }
+                        else{
+                            holder.location.setVisibility(View.GONE);
+                            holder.locationLabel.setVisibility(View.GONE);
+                        }
 
 
                         holder.datePost.setText(date);
@@ -262,7 +280,7 @@ public class ListFragment extends android.support.v4.app.Fragment {
     {
         TextView title, content, bankAcc, contact;
         ImageView image1, image2, image3, profilePic;
-        TextView acc_label, contact_label, userName;
+        TextView acc_label, contact_label, userName, locationLabel, location;
         EditText commentTxt;
         Button commentButton, viewCommentBtn;
         TextView datePost;
@@ -286,6 +304,8 @@ public class ListFragment extends android.support.v4.app.Fragment {
             commentTxt = itemView.findViewById(R.id.textComment);
             commentButton = itemView.findViewById(R.id.comment_confirm);
             viewCommentBtn = itemView.findViewById(R.id.comment_btn);
+            locationLabel = itemView.findViewById(R.id.location_label);
+            location = itemView.findViewById(R.id.location);
 
 
         }
