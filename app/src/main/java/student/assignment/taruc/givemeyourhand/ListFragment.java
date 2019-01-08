@@ -209,9 +209,21 @@ public class ListFragment extends android.support.v4.app.Fragment {
                         String date = dataSnapshot.child("UploadDate").getValue().toString();
                         String postTitle = dataSnapshot.child("Title").getValue().toString();
                         String postContent = dataSnapshot.child("Content").getValue().toString();
-                        String postAcc = dataSnapshot.child("AccountNo").getValue().toString();
-                        String postContact = dataSnapshot.child("ContactNo").getValue().toString();
-                        String location = dataSnapshot.child("Location").getValue().toString();
+                        String postAcc = "";
+                        String postContact = "";
+                        String location = "";
+                        if(dataSnapshot.hasChild("AccountNo")){
+                            postAcc = dataSnapshot.child("AccountNo").getValue().toString();
+                        }
+                        if(dataSnapshot.hasChild("ContactNo")){
+                            postContact = dataSnapshot.child("ContactNo").getValue().toString();
+                        }
+                        if(dataSnapshot.hasChild("Location")){
+                            location = dataSnapshot.child("Location").getValue().toString();
+
+                        }
+
+
 
                         if(!location.equals("")){
                             holder.location.setText(location);
