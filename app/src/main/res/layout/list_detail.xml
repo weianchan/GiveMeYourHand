@@ -132,11 +132,12 @@
             android:text="Location:"/>
 
         <TextView
+            android:id="@+id/location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/location"
-            android:textSize="18dp"
-            android:text="This is the Location"/>
+            android:text="This is the Location"
+            android:textColor="@color/colorAccent"
+            android:textSize="18dp" />
 
 
         <RelativeLayout

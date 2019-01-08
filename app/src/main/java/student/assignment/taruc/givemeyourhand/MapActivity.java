@@ -6,6 +6,7 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -57,6 +58,10 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
             mMap.addMarker(new MarkerOptions().position(location).title(locationTxt));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+            mMap.moveCamera(CameraUpdateFactory.zoomTo(15f));
+        }
+        else{
+            Toast.makeText(this, "Cannot find this location", Toast.LENGTH_SHORT);
         }
 
     }

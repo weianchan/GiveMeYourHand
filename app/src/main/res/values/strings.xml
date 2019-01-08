@@ -39,4 +39,5 @@
     <string name="change_password">Change Password</string>
     <string name="enter_location_optional">Enter Location (Optional)</string>
     <string name="comment_of_the_post">Comment of the post</string>
+    <string name="Location_map">Location</string>
 </resources>
