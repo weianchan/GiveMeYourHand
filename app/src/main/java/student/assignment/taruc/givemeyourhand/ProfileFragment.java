@@ -218,7 +218,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                                         }
                                         else{
                                             Toast.makeText(getActivity(), "Error password incorrect", Toast.LENGTH_SHORT).show();
-
+                                            loadingBar.setVisibility(View.GONE);
+                                            getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                                         }
                                     }
 

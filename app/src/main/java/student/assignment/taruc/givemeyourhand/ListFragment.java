@@ -1,16 +1,20 @@
 package student.assignment.taruc.givemeyourhand;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.RecoverySystem;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,8 +25,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,6 +66,9 @@ public class ListFragment extends android.support.v4.app.Fragment {
     private View view;
     private RecyclerView recyclerView;
     private static final String TAG = "PostRecycleView:";
+    private static final int R1_ID = 8456;
+    private static final int R2_ID = 9704;
+    private static final int R3_ID = 4136;
 
     private DatabaseReference postReference, idReference, commentReference;
 
@@ -220,6 +230,87 @@ public class ListFragment extends android.support.v4.app.Fragment {
 
                             }
                         });
+
+
+                    }
+                });
+
+                holder.reportButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final AlertDialog.Builder newBuilder = new AlertDialog.Builder(getActivity());
+                        final LinearLayout layout = new LinearLayout(getActivity());
+                        layout.setOrientation(LinearLayout.VERTICAL);
+                        RadioGroup radioGroup = new RadioGroup(getActivity());
+                        final EditText text = new EditText(getActivity());
+                        text.setInputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
+                        text.setVisibility(View.GONE);
+                        final RadioButton r1 = new RadioButton(getActivity());
+                        r1.setText("Inaccurate Information");
+                        r1.setId(R1_ID);
+                        final RadioButton r2 = new RadioButton(getActivity());
+                        r2.setText("Fake Information");
+                        r2.setId(R2_ID);
+                        final RadioButton r3 = new RadioButton(getActivity());
+                        r3.setText("Other");
+                        r3.setId(R3_ID);
+                        layout.addView(radioGroup);
+                        layout.addView(text);
+                        radioGroup.addView(r1);
+                        radioGroup.addView(r2);
+                        radioGroup.addView(r3);
+                        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                                RadioButton rb = radioGroup.findViewById(R3_ID);
+                                if(i == R3_ID){
+                                    if(rb.isChecked()){
+                                        text.setVisibility(View.VISIBLE);
+                                    }
+                                    else{
+                                        text.setVisibility(View.GONE);
+                                    }
+                                }
+                            }
+                        });
+
+                        newBuilder.setView(layout);
+                        newBuilder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                final String currentUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Report").child(postID + currentUser);
+                                HashMap hashMap = new HashMap();
+                                hashMap.put("Post",postID);
+                                hashMap.put("User",currentUser);
+
+
+                                if(r3.isChecked()){
+                                    String txt = text.getText().toString();
+                                    hashMap.put("Reason", txt);
+                                }
+                                else if(r2.isChecked()){
+                                    hashMap.put("Reason", r2.getText().toString());
+                                }
+                                else{
+                                    hashMap.put("Reason", r1.getText().toString());
+                                }
+
+                                ref.setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Toast.makeText(getActivity(),"Report is sent out. Please wait for approve", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        });
+                        newBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+                            }
+                        });
+                        newBuilder.show();
 
 
                     }
