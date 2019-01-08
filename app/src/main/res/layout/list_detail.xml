@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="10dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:layout_width="50dp"
@@ -22,14 +23,24 @@
             android:layout_toRightOf="@id/profilePic"
             android:id="@+id/username"
             android:layout_marginLeft="10dp"
-            android:text="Name of the User"/>
+            android:text="Name of the User"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_below="@+id/username"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@id/profilePic"
+            android:layout_marginLeft="10dp"
+            android:text="Date of Post" />
 
         <ImageView
             android:id="@+id/first"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_alignParentTop="true"
-
             android:layout_marginTop="60dp" />
 
         <ImageView
@@ -50,6 +61,15 @@
             android:layout_marginTop="60dp"
             android:layout_toRightOf="@+id/second" />
 
+        <ImageButton
+            android:id="@+id/like"
+            android:layout_width="33dp"
+            android:layout_height="34dp"
+
+            android:layout_below="@+id/username"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/ic_like_24dp" />
+
 
     </RelativeLayout>
 
@@ -64,12 +84,14 @@
             android:layout_height="wrap_content"
             android:id="@+id/textDesc"
             android:textSize="38dp"
-            android:text="Hello"/>
+            android:text="Title"
+            android:textStyle="bold"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Content: "
-            android:textSize="22dp"/>
+            android:textSize="22dp"
+            android:textStyle="bold"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -81,7 +103,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/accNoLabel"
             android:text="Account No: "
-            android:textSize="22dp"/>
+            android:textSize="22dp"
+            android:textStyle="bold"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -93,51 +116,47 @@
             android:layout_height="wrap_content"
             android:id="@+id/contactLabel"
             android:text="Contact No: "
-            android:textSize="22dp"/>
+            android:textSize="22dp"
+            android:textStyle="bold"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/contactNo"
             android:textSize="18dp"
             android:text="This is the contact Number"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/comment_label"
-            android:text="Comments: "
-            android:textSize="22dp"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/comment"
-            android:text="Comments from others"
-            android:textSize="18dp"/>
 
-    </LinearLayout>
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/white">
-
-        <EditText
-            android:id="@+id/textComment"
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/place_a_comment"
-            android:inputType="textMultiLine"/>
+            android:background="@color/white">
 
-        <Button
-            android:id="@+id/comment_confirm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="81dp"
-            android:layout_toRightOf="@+id/textComment"
-            android:text="Confirm" />
+            <EditText
+                android:id="@+id/textComment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/place_a_comment"
+                android:inputType="textMultiLine" />
+
+            <Button
+                android:id="@+id/comment_confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="60dp"
+                android:layout_toRightOf="@+id/textComment"
+                android:text="Confirm" />
+
+            <Button
+                android:id="@+id/comment_btn"
+                android:layout_marginTop="45dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="View Comment" />
 
 
-    </RelativeLayout>
+        </RelativeLayout>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="5dp"
@@ -146,6 +165,6 @@
             android:layout_marginBottom="30dp"/>
 
 
-
+</LinearLayout>
 
 </LinearLayout>

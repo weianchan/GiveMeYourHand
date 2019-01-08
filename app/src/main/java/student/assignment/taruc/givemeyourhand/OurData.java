@@ -12,11 +12,13 @@ public class OurData {
     private String mImage1;
     private String mImage2;
     private String mImage3;
-    private String mComment;
+    private String mDate;
 
     public OurData(){} //Need for database
 
-    public OurData(String mOwner, String mTitle, String mContent, String mBankAcc, String mContact, String mImage1, String mImage2, String mImage3, String mComment)
+
+
+    public OurData(String mOwner, String mTitle, String mContent, String mBankAcc, String mContact, String mImage1, String mImage2, String mImage3, String mDate)
     {
         this.mOwner = mOwner;
         this.mTitle = mTitle;
@@ -26,7 +28,8 @@ public class OurData {
         this.mImage1 = mImage1;
         this.mImage2 = mImage2;
         this.mImage3 = mImage3;
-        this.mComment = mComment;
+        this.mDate = mDate;
+
     }
 
     public String getOwner() { return mOwner; }
@@ -61,9 +64,13 @@ public class OurData {
 
     public void setImage3(String image3) { mImage3 = image3; }
 
-    public String getComment() { return mComment; }
+    public String getDate() {
+        return mDate;
+    }
 
-    public void setComment(String comment) {mComment = comment; }
+    public void setDate(String mDate) {
+        this.mDate = mDate;
+    }
 
 }
 
