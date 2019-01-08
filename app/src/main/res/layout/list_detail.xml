@@ -162,11 +162,26 @@
                 android:text="Confirm" />
 
             <Button
+                android:id="@+id/like_btn"
+                android:layout_marginTop="45dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Like" />
+
+            <Button
                 android:id="@+id/comment_btn"
                 android:layout_marginTop="45dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+
                 android:text="View Comment" />
+
+            <Button
+                android:id="@+id/report_btn"
+                android:layout_marginTop="45dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Report" />
 
 
         </RelativeLayout>
