@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -24,6 +25,12 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.places.GeoDataClient;
+import com.google.android.gms.location.places.Places;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -54,20 +61,27 @@ import id.zelory.compressor.Compressor;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class UploadPostFragment extends Fragment implements View.OnClickListener {
+public class UploadPostFragment extends Fragment implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
     private EditText mTitle, mContent, mAccount, mContact;
     private ImageView image1, image2, image3;
     private Button submitButton;
     private ProgressBar loadingBar;
+    private AutoCompleteTextView mAddress;
+
     private static int SELECT_PICTURES_1 = 1;
     private static int SELECT_PICTURES_2 = 2;
     private static int SELECT_PICTURES_3 = 3;
-    private String title, content, contact, account;
+    private String title, content, contact, account, address;
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDatabase;
     private FirebaseStorage firebaseStorage;
     private Uri[] imageUriList = new Uri[3];
+
+    private PlaceAutocompleteAdapter mPlaceAutocompleAdapter;
+    private GeoDataClient mGeoDataClient;
+    private static final LatLngBounds BOUNDS_GREATER_SYDNEY = new LatLngBounds(
+            new LatLng(-34.041458, 150.790100), new LatLng(-33.682247, 151.383362));
 
     private int count = 0;
 
@@ -90,6 +104,7 @@ public class UploadPostFragment extends Fragment implements View.OnClickListener
         mContact = view.findViewById(R.id.post_contact_no);
         submitButton = view.findViewById(R.id.submit_button);
         loadingBar = view.findViewById(R.id.create_post_loading_bar);
+        mAddress = view.findViewById(R.id.post_location);
 
         image1 = view.findViewById(R.id.image1);
         image2 = view.findViewById(R.id.image2);
@@ -104,7 +119,11 @@ public class UploadPostFragment extends Fragment implements View.OnClickListener
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
 
+        mGeoDataClient = Places.getGeoDataClient(getActivity(), null);
 
+        mPlaceAutocompleAdapter = new PlaceAutocompleteAdapter(getActivity(),mGeoDataClient, BOUNDS_GREATER_SYDNEY, null);
+
+        mAddress.setAdapter(mPlaceAutocompleAdapter);
 
         return view;
     }
@@ -210,7 +229,9 @@ public class UploadPostFragment extends Fragment implements View.OnClickListener
                 content = mContent.getText().toString();
                 contact = mContact.getText().toString();
                 account = mAccount.getText().toString();
-                String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+                address = mAddress.getText().toString();
+
+                String currentDate = new SimpleDateFormat("dd-MM-yyyy hh:mm", Locale.getDefault()).format(new Date());
 
 
                 if(checkValidation()){
@@ -248,6 +269,7 @@ public class UploadPostFragment extends Fragment implements View.OnClickListener
                     hashMap.put("Content", content);
                     hashMap.put("ContactNo", contact);
                     hashMap.put("AccountNo", account);
+                    hashMap.put("Location", address);
                     hashMap.put("Owner", firebaseAuth.getCurrentUser().getUid());
                     hashMap.put("UploadDate", currentDate);
 
@@ -259,6 +281,7 @@ public class UploadPostFragment extends Fragment implements View.OnClickListener
                             loadingBar.setVisibility(View.GONE);
                             getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                             Toast.makeText(getActivity(), "Your post created success.", Toast.LENGTH_SHORT).show();
+                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_container, new ListFragment()).commit();
 
                         }
                     });
@@ -294,4 +317,8 @@ public class UploadPostFragment extends Fragment implements View.OnClickListener
     }
 
 
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Toast.makeText(getActivity(),connectionResult.getErrorMessage(),Toast.LENGTH_SHORT);
+    }
 }

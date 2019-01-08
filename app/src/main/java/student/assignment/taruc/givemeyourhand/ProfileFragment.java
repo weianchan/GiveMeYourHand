@@ -279,6 +279,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                                         .setPhotoUri(uri)
                                         .build();
                                 currentUser.updateProfile(profileUpdate);
+
+                                firebaseDatabase.getReference().child("User").child(currentUser.getUid()).child("ProfilePic").setValue(uri).toString();
                                 Picasso.get().load(uri).fit().centerCrop()
                                         .placeholder(R.drawable.ic_image_24dp)
                                         .error(R.drawable.ic_image_24dp)

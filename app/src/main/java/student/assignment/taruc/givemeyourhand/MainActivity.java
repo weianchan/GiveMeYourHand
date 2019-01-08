@@ -81,8 +81,9 @@ public class MainActivity extends AppCompatActivity
         navName.setOnClickListener(this);
         navEmail.setOnClickListener(this);
         navProfile.setOnClickListener(this);
-
-        fragmentManager.beginTransaction().replace(R.id.main_fragment_container, new ListFragment()).commit();
+        if(savedInstanceState == null){
+            fragmentManager.beginTransaction().replace(R.id.main_fragment_container, new ListFragment()).commit();
+        }
 
     }
 
@@ -96,7 +97,6 @@ public class MainActivity extends AppCompatActivity
         updateUI();
         loadingBar.setVisibility(View.GONE);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-        fragmentManager.beginTransaction().replace(R.id.main_fragment_container, new ListFragment()).commit();
     }
 
     private void updateUI() {

@@ -51,8 +51,6 @@ public class ListFragment extends android.support.v4.app.Fragment {
     private RecyclerView recyclerView;
 
     private DatabaseReference postReference, idReference, commentReference;
-    private Bitmap bitmap;
-    private Uri path;
 
     @Nullable
     @Override
