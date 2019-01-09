@@ -26,7 +26,7 @@
                 android:id="@+id/comment_username"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="username"
+                android:text="@string/username"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -34,7 +34,7 @@
 
             <TextView
                 android:id="@+id/simple_text"
-                android:text=" commented On "
+                android:text="@string/commented_on"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:layout_width="wrap_content"
@@ -43,7 +43,7 @@
 
             <TextView
                 android:id="@+id/comment_date"
-                android:text=" Date: "
+                android:text="@string/date"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:layout_width="wrap_content"
@@ -60,7 +60,7 @@
 
             <TextView
                 android:id="@+id/comment_txt"
-                android:text=" Comment Text will display here... "
+                android:text="@string/comment_text_will_display_here"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_width="wrap_content"

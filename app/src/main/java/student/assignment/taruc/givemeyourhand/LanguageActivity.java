@@ -1,5 +1,6 @@
 package student.assignment.taruc.givemeyourhand;
 
+import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -7,6 +8,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import java.util.Locale;
 
 public class LanguageActivity extends AppCompatActivity {
 
@@ -27,18 +30,13 @@ public class LanguageActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if(i == 0)
                 {
-                    String lg = String.valueOf(adapterView.getItemAtPosition(i));
-                    Toast.makeText(LanguageActivity.this, lg,Toast.LENGTH_SHORT).show();
-                }
-                else if(i == 1)
-                {
-                    String lg = String.valueOf(adapterView.getItemAtPosition(i));
-                    Toast.makeText(LanguageActivity.this, lg,Toast.LENGTH_SHORT).show();
+
                 }
                 else
                 {
 
                 }
+
             }
         });
 

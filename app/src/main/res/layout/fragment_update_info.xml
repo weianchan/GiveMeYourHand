@@ -10,11 +10,10 @@
         android:id="@+id/change_user_name_lbl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/profile_username"
         android:layout_centerHorizontal="false"
         android:layout_marginStart="50dp"
         android:layout_marginTop="120dp"
-        android:text="Username:"
+        android:text="@string/username_update"
         android:textSize="18sp" />
 
     <EditText
@@ -25,7 +24,7 @@
         android:layout_centerHorizontal="false"
         android:layout_marginStart="10dp"
         android:layout_toEndOf="@+id/change_user_name_lbl"
-        android:hint="New Username"
+        android:hint="@string/new_username"
         android:inputType="textPersonName"
         android:textSize="16sp" />
 
@@ -37,7 +36,7 @@
         android:layout_alignEnd="@id/change_user_name_lbl"
         android:layout_centerVertical="false"
         android:layout_marginTop="10dp"
-        android:text="Phone Number:"
+        android:text="@string/phone_number"
         android:textSize="18sp" />
 
     <EditText
@@ -47,7 +46,7 @@
         android:layout_alignBaseline="@+id/change_user_phone_lbl"
         android:layout_marginStart="10dp"
         android:layout_toEndOf="@+id/change_user_phone_lbl"
-        android:hint="New Phone Number"
+        android:hint="@string/new_phone_number"
         android:inputType="phone" />
 
     <Button
@@ -58,7 +57,7 @@
         android:layout_alignParentEnd="false"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:text="Confirm" />
+        android:text="@string/confirm" />
 
     <ProgressBar
         android:id="@+id/update_loading_bar"

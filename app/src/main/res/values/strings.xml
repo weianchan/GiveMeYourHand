@@ -1,12 +1,11 @@
 <resources>
     <string name="app_name">Give Me Your Hand</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main" translatable="false">MainActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
     <string name="email_address">Email address</string>
     <string name="password">Password</string>
     <string name="show_password">Show Password</string>
@@ -62,4 +61,14 @@
     <string name="post_new_activity">Post new Activity</string>
     <string name="settings">Settings</string>
     <string name="about_us">About Us</string>
+    <string name="username">username</string>
+    <string name="commented_on">commented On</string>
+    <string name="date">Date:</string>
+    <string name="comment_text_will_display_here">Comment Text will display here…</string>
+    <string name="username_update">Username:</string>
+    <string name="new_username">New Username</string>
+    <string name="phone_number">Phone Number:</string>
+    <string name="new_phone_number">New Phone Number</string>
+    <string name="confirm">Confirm</string>
+    <string name="comments">Comments:</string>
 </resources>

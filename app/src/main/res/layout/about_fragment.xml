@@ -10,8 +10,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:text="About Us"
-        android:textSize="35dp"
+        android:text="@string/about_us"
+        android:textSize="35sp"
         android:id="@+id/about_title"
         android:textStyle="bold"/>
 
@@ -29,7 +29,7 @@
         android:id="@+id/about_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:textStyle="normal"
         android:layout_below="@+id/image_logo"/>
 

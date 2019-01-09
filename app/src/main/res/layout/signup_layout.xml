@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_color">
@@ -28,7 +29,8 @@
             android:layout_height="100dp"
             android:layout_gravity="center_horizontal"
             android:contentDescription="@string/click_to_select_image"
-            app:srcCompat="@drawable/ic_image_24dp" />
+            app:srcCompat="@drawable/ic_image_24dp"
+            tools:ignore="VectorDrawableCompat" />
 
         <EditText
             android:id="@+id/full_name"
@@ -146,7 +148,8 @@
             android:buttonTint="@color/white"
             android:text="@string/terms_condition"
             android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            tools:targetApi="lollipop" />
 
         <Button
             android:id="@+id/sign_up_btn"
