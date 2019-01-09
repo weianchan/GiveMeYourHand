@@ -61,7 +61,7 @@ import java.util.List;
 
 import id.zelory.compressor.Compressor;
 
-public class ListFragment extends android.support.v4.app.Fragment {
+public class ListFragment extends android.support.v4.app.Fragment{
 
     private View view;
     private RecyclerView recyclerView;
@@ -139,8 +139,6 @@ public class ListFragment extends android.support.v4.app.Fragment {
 
                     }
                 });
-
-
 
 
                 holder.commentButton.setOnClickListener(new View.OnClickListener() {
@@ -274,6 +272,7 @@ public class ListFragment extends android.support.v4.app.Fragment {
                             }
                         });
 
+
                         newBuilder.setView(layout);
                         newBuilder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
                             @Override
@@ -323,9 +322,35 @@ public class ListFragment extends android.support.v4.app.Fragment {
                     {
                         if(dataSnapshot.hasChild("image1") && dataSnapshot.hasChild("image2") && dataSnapshot.hasChild("image3"))
                         {
-                            String firstImage = dataSnapshot.child("image1").getValue().toString();
-                            String secondImage = dataSnapshot.child("image2").getValue().toString();
-                            String thirdImage = dataSnapshot.child("image3").getValue().toString();
+                            final String firstImage = dataSnapshot.child("image1").getValue().toString();
+                            final String secondImage = dataSnapshot.child("image2").getValue().toString();
+                            final String thirdImage = dataSnapshot.child("image3").getValue().toString();
+
+                            holder.image1.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent intent = new Intent(getActivity().getApplicationContext(), FullScreen.class);
+                                    intent.putExtra("image", firstImage);
+                                    startActivity(intent);
+                                }
+                            });
+                            holder.image2.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent intent = new Intent(getActivity().getApplicationContext(), FullScreen.class);
+                                    intent.putExtra("image", secondImage);
+                                    startActivity(intent);
+                                }
+                            });
+                            holder.image3.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent intent = new Intent(getActivity().getApplicationContext(), FullScreen.class);
+                                    intent.putExtra("image", thirdImage);
+                                    startActivity(intent);
+                                }
+                            });
+
 
                             Picasso.get().load(firstImage).placeholder(R.drawable.ic_no_image).into(holder.image1);
                             Picasso.get().load(secondImage).placeholder(R.drawable.ic_no_image).into(holder.image2);
@@ -334,7 +359,16 @@ public class ListFragment extends android.support.v4.app.Fragment {
                         }
                         else if(dataSnapshot.hasChild("image1") && !dataSnapshot.hasChild("image2") && !dataSnapshot.hasChild("image3"))
                         {
-                            String firstImage = dataSnapshot.child("image1").getValue().toString();
+                            final String firstImage = dataSnapshot.child("image1").getValue().toString();
+
+                            holder.image1.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent intent = new Intent(getActivity().getApplicationContext(), FullScreen.class);
+                                    intent.putExtra("image", firstImage);
+                                    startActivity(intent);
+                                }
+                            });
 
                             Picasso.get().load(firstImage).placeholder(R.drawable.ic_no_image).into(holder.image1);
                             holder.image2.setVisibility(View.GONE);
@@ -342,8 +376,25 @@ public class ListFragment extends android.support.v4.app.Fragment {
                         }
                         else if(dataSnapshot.hasChild("image1") && dataSnapshot.hasChild("image2") && !dataSnapshot.hasChild("image3"))
                         {
-                            String firstImage = dataSnapshot.child("image1").getValue().toString();
-                            String secondImage = dataSnapshot.child("image2").getValue().toString();
+                            final String firstImage = dataSnapshot.child("image1").getValue().toString();
+                            final String secondImage = dataSnapshot.child("image2").getValue().toString();
+
+                            holder.image1.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent intent = new Intent(getActivity().getApplicationContext(), FullScreen.class);
+                                    intent.putExtra("image", firstImage);
+                                    startActivity(intent);
+                                }
+                            });
+                            holder.image2.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent intent = new Intent(getActivity().getApplicationContext(), FullScreen.class);
+                                    intent.putExtra("image", secondImage);
+                                    startActivity(intent);
+                                }
+                            });
 
                             Picasso.get().load(firstImage).placeholder(R.drawable.ic_no_image).into(holder.image1);
                             Picasso.get().load(secondImage).placeholder(R.drawable.ic_no_image).into(holder.image2);
@@ -457,6 +508,8 @@ public class ListFragment extends android.support.v4.app.Fragment {
         recyclerView.setAdapter(adapter);
         adapter.startListening();
     }
+
+
 
 
     public static class postViewHolder extends RecyclerView.ViewHolder
