@@ -256,9 +256,6 @@ public class UploadPostFragment extends Fragment implements View.OnClickListener
                                         public void onComplete(@NonNull Task<Uri> task) {
                                             dbRef.child("image"+(++count)).setValue(task.getResult().toString());
                                             Log.d("123", task.getResult().toString());
-                                            loadingBar.setVisibility(View.GONE);
-                                            getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
                                         }
                                     });
                                 }
