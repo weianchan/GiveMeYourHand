@@ -19,7 +19,7 @@ public class SettingFragment extends Fragment{
     public SettingFragment() {
     }
 
-    String items[] = new String[]{"Version 1.0.0", "Language"};
+    String items[] = new String[]{"Version 1.0.0", "Tell your Friends about us"};
     ListView settingsList;
 
 
@@ -33,21 +33,9 @@ public class SettingFragment extends Fragment{
         settingsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(i == 0)
-                {
-                    String temp = String.valueOf(adapterView.getItemAtPosition(i));
-                    Toast.makeText(getContext(),temp, Toast.LENGTH_SHORT).show();
-                }
-                else if(i == 1)
-                {
-                    Intent intent = new Intent(view.getContext(),LanguageActivity.class);
-                    startActivity(intent);
 
-                }
-                else
-                {
-
-                }
+                String temp = String.valueOf(adapterView.getItemAtPosition(i));
+                Toast.makeText(getContext(),temp, Toast.LENGTH_SHORT).show();
 
             }
         });
