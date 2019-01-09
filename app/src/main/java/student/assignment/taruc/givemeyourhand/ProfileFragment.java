@@ -135,7 +135,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.change_info_btn:
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_container, new UpdateInfo()).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_container, new UpdateInfo()).addToBackStack(null).commit();
                 break;
             case R.id.change_password_btn:
                 final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -245,10 +245,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                         ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},1);
                     }
                     if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                        loadingBar.setVisibility(View.VISIBLE);
-                        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                        loadingBar.bringToFront();
+
                         Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                         intent.setType("image/*");
                         startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
@@ -266,7 +263,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
         if(resultCode == Activity.RESULT_OK&& requestCode == 1 && data!= null){
 
-
+            loadingBar.setVisibility(View.VISIBLE);
+            getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            loadingBar.bringToFront();
             Uri imageUri = data.getData();
             StorageReference imageRef = firebaseStorage.getReference().child("users/"+currentUser.getUid()+".jpg");
             imageRef.putFile(imageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {

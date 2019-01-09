@@ -145,19 +145,19 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_home) {
             // Handle the camera action
-            fragmentManager.beginTransaction().replace(R.id.main_fragment_container, new ListFragment()).commit();
+            fragmentManager.beginTransaction().replace(R.id.main_fragment_container, new ListFragment()).addToBackStack(null).commit();
         }  else if (id == R.id.new_post) {
-            fragmentManager.beginTransaction().replace(R.id.main_fragment_container, new UploadPostFragment()).commit();
+            fragmentManager.beginTransaction().replace(R.id.main_fragment_container, new UploadPostFragment()).addToBackStack(null).commit();
         }
         else if(id == R.id.own_post){
-            fragmentManager.beginTransaction().replace(R.id.main_fragment_container, new OwnFragment()).commit();
+            fragmentManager.beginTransaction().replace(R.id.main_fragment_container, new OwnFragment()).addToBackStack(null).commit();
 
         }
         else if(id == R.id.nav_setting) {
-            fragmentManager.beginTransaction().replace(R.id.main_fragment_container, new SettingFragment()).commit();
+            fragmentManager.beginTransaction().replace(R.id.main_fragment_container, new SettingFragment()).addToBackStack(null).commit();
 
         }else if (id == R.id.nav_about) {
-            fragmentManager.beginTransaction().replace(R.id.main_fragment_container, new AboutFragment()).commit();
+            fragmentManager.beginTransaction().replace(R.id.main_fragment_container, new AboutFragment()).addToBackStack(null).commit();
 
         } else if (id == R.id.sign_out) {
             FirebaseAuth.getInstance().signOut();
@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.current_username:
             case R.id.current_user_profile:
             case R.id.current_user_email:
-                fragmentManager.beginTransaction().replace(R.id.main_fragment_container, new ProfileFragment()).commit();
+                fragmentManager.beginTransaction().replace(R.id.main_fragment_container, new ProfileFragment()).addToBackStack(null).commit();
                 onBackPressed();
                 break;
 

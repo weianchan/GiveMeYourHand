@@ -181,7 +181,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             case R.id.create_account:
 
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.login_fragmentContainer, new SignUpFragment(),global.SIGNUP_FRAGMENT).commit();
+                        .replace(R.id.login_fragmentContainer, new SignUpFragment(),global.SIGNUP_FRAGMENT).addToBackStack(null).commit();
                 break;
         }
 
