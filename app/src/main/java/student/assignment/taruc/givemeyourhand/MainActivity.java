@@ -170,7 +170,12 @@ public class MainActivity extends AppCompatActivity
         }  else if (id == R.id.new_post) {
             fragmentManager.beginTransaction().replace(R.id.main_fragment_container, new UploadPostFragment()).commit();
 
-        } else if (id == R.id.nav_manage) {
+        }
+        else if(id == R.id.nav_setting) {
+            fragmentManager.beginTransaction().replace(R.id.main_fragment_container, new SettingFragment()).commit();
+
+        }else if (id == R.id.nav_about) {
+            fragmentManager.beginTransaction().replace(R.id.main_fragment_container, new AboutFragment()).commit();
 
         } else if (id == R.id.sign_out) {
             FirebaseAuth.getInstance().signOut();

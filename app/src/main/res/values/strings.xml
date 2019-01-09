@@ -55,4 +55,7 @@
     <string name="like">Like</string>
     <string name="view_comment">View Comment</string>
     <string name="report">Report</string>
+    <string name="give_me_your_hand">Give Me Your Hand</string>
+    <string name="change_language">Change Language</string>
+    <string name="home_page">Home Page</string>
 </resources>
