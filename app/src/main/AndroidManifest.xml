@@ -48,14 +48,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="student.assignment.taruc.givemeyourhand.MainActivity" />
         </activity>
-        <activity android:name=".LanguageActivity"
+        <activity
+            android:name=".LanguageActivity"
             android:label="@string/change_language"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="student.assignment.taruc.givemeyourhand.MainActivity"/>
-
+                android:value="student.assignment.taruc.givemeyourhand.MainActivity" />
         </activity>
+        <activity android:name=".FullScreen"></activity>
     </application>
 
 </manifest>
