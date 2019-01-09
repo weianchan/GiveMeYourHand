@@ -7,19 +7,23 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_home_black_24dp"
-            android:title="Home Page" />
+            android:title="@string/home_page" />
         <item
             android:id="@+id/new_post"
             android:icon="@drawable/ic_public_24dp"
-            android:title="Post new Activity" />
+            android:title="@string/post_new_activity" />
+        <item
+            android:id="@+id/own_post"
+            android:icon="@drawable/ic_public_24dp"
+            android:title="@string/own_post"/>
         <item
             android:id="@+id/nav_setting"
             android:icon="@drawable/ic_settings_black_24dp"
-            android:title="Settings" />
+            android:title="@string/settings" />
         <item
             android:id="@+id/nav_about"
             android:icon="@drawable/ic_phone_black_24dp"
-            android:title="About Us" />
+            android:title="@string/about_us" />
     </group>
 
     <item

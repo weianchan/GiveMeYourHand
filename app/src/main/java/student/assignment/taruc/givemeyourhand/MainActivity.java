@@ -169,6 +169,8 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.beginTransaction().replace(R.id.main_fragment_container, new ListFragment()).commit();
         }  else if (id == R.id.new_post) {
             fragmentManager.beginTransaction().replace(R.id.main_fragment_container, new UploadPostFragment()).commit();
+        }
+        else if(id == R.id.own_post){
 
         }
         else if(id == R.id.nav_setting) {
