@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginTop="7dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -84,12 +85,7 @@
             android:textSize="38sp"
             android:text="@string/title"
             android:textStyle="bold"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/content"
-            android:textSize="22sp"
-            android:textStyle="bold"/>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -166,7 +162,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_below="@+id/textComment"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:id="@+id/btn_layout">
 
                 <Button
                     android:id="@+id/like_btn"
@@ -198,9 +195,8 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:background="@color/black"
-            android:layout_marginTop="30dp" />
+            android:layout_height="3dp"
+            android:background="@color/black" />
 
 
 </LinearLayout>
