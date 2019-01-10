@@ -215,6 +215,8 @@ public class OwnFragment extends Fragment {
                     }
                 });
 
+                holder.reportButton.setVisibility(View.GONE);
+
                 holder.reportButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
