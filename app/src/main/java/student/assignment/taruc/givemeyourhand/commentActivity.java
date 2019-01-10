@@ -72,7 +72,7 @@ public class commentActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         String user = dataSnapshot.child("Username").getValue().toString();
-                        holder.username.setText(user);
+                        holder.username.setText(user + " ");
                         String userProfile = dataSnapshot.child("ProfilePic").getValue().toString();
                         Picasso.get().load(userProfile).placeholder(R.drawable.ic_person_black_24dp).into(holder.profile);
                     }
@@ -81,7 +81,7 @@ public class commentActivity extends AppCompatActivity {
 
                     }
                 });
-                holder.commentDate.setText(model.getDate());
+                holder.commentDate.setText(" " + model.getDate());
                 holder.commentText.setText(model.getContent());
             }
 
